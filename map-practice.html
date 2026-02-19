@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>מפת ארץ ישראל — תרגול ובוחן</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #eef2f7;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ══════════════════════════════════
+       HEADER
+    ══════════════════════════════════ */
+    header {
+      background: #1a4f8a;
+      color: white;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex-shrink: 0;
+      height: 52px;
+    }
+
+    header h1 {
+      font-size: 1.1em;
+      margin-left: 24px;
+      white-space: nowrap;
+    }
+
+    /* ══════════════════════════════════
+       TABS
+    ══════════════════════════════════ */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .tab-btn {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      border: none;
+      padding: 8px 22px;
+      font-size: 0.95em;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 8px 8px 0 0;
+      transition: background 0.2s;
+      font-family: inherit;
+    }
+    .tab-btn:hover       { background: rgba(255,255,255,0.25); }
+    .tab-btn.active      { background: white; color: #1a4f8a; }
+
+    /* ══════════════════════════════════
+       SCORE BAR & RESET (shared)
+    ══════════════════════════════════ */
+    #score-area {
+      margin-right: auto;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    #score-bar {
+      display: flex;
+      gap: 14px;
+      font-size: 0.88em;
+      background: rgba(255,255,255,0.15);
+      padding: 5px 12px;
+      border-radius: 20px;
+    }
+
+    .reset-btn {
+      background: white;
+      color: #1a4f8a;
+      border: none;
+      border-radius: 8px;
+      padding: 5px 12px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.85em;
+      font-family: inherit;
+    }
+    .reset-btn:hover { background: #d0e4ff; }
+
+    /* ══════════════════════════════════
+       MAIN AREA
+    ══════════════════════════════════ */
+    .main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* ══════════════════════════════════
+       PAGES (practice / quiz)
+    ══════════════════════════════════ */
+    .page {
+      display: none;
+      flex: 1;
+      overflow: hidden;
+    }
+    .page.active {
+      display: flex;
+    }
+
+    /* ══════════════════════════════════
+       MAP  (shared between both pages)
+    ══════════════════════════════════ */
+    #map-wrap {
+      flex: 1;
+      position: relative;
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+    }
+
+    #map.over { outline: 3px dashed #3b82f6; }
+
+    .map-hint {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.92);
+      padding: 7px 18px;
+      border-radius: 20px;
+      font-size: 0.82em;
+      color: #444;
+      z-index: 1000;
+      pointer-events: none;
+      white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+
+    /* ══════════════════════════════════
+       SIDE PANEL  (shared style)
+    ══════════════════════════════════ */
+    .panel {
+      width: 190px;
+      background: white;
+      border-right: 2px solid #d0dce8;   /* RTL: right border = visual left */
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    .panel-title {
+      background: #e8f0fb;
+      text-align: center;
+      padding: 8px;
+      font-size: 0.85em;
+      color: #1a4f8a;
+      font-weight: bold;
+      border-bottom: 1px solid #d0dce8;
+      flex-shrink: 0;
+    }
+
+    .cards-list {
+      overflow-y: auto;
+      flex: 1;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    /* draggable card */
+    .loc-card {
+      background: #dbeafe;
+      border: 2px solid #3b82f6;
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-size: 0.78em;
+      font-weight: bold;
+      color: #1e3a5f;
+      cursor: grab;
+      user-select: none;
+      text-align: center;
+      transition: box-shadow 0.15s, transform 0.15s;
+      line-height: 1.3;
+    }
+    .loc-card:hover        { box-shadow: 0 3px 8px rgba(0,0,0,0.18); transform: scale(1.02); }
+    .loc-card.dragging     { opacity: 0.4; cursor: grabbing; }
+    .loc-card.done-ok      { background: #dcfce7; border-color: #22c55e; color: #166534; cursor: default; opacity: 0.7; }
+    .loc-card.done-err     { background: #fee2e2; border-color: #ef4444; color: #7f1d1d; cursor: default; opacity: 0.7; }
+
+    /* ══════════════════════════════════
+       QUIZ — STEP 1: location selector
+    ══════════════════════════════════ */
+    #quiz-select-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      background: #f0f5ff;
+      padding: 24px 20px;
+      overflow-y: auto;
+    }
+    #quiz-select-screen.active { display: flex; }
+
+    #quiz-select-screen h2 {
+      color: #1a4f8a;
+      margin-bottom: 6px;
+      font-size: 1.2em;
+    }
+    #quiz-select-screen p {
+      color: #555;
+      font-size: 0.9em;
+      margin-bottom: 18px;
+    }
+
+    #selection-counter {
+      font-weight: bold;
+      color: #1a4f8a;
+      background: #dbeafe;
+      border-radius: 20px;
+      padding: 4px 14px;
+      margin-bottom: 18px;
+      font-size: 0.9em;
+    }
+
+    .select-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px;
+      width: 100%;
+      max-width: 800px;
+      margin-bottom: 24px;
+    }
+
+    .select-chip {
+      background: white;
+      border: 2px solid #93c5fd;
+      border-radius: 10px;
+      padding: 10px 8px;
+      font-size: 0.82em;
+      font-weight: bold;
+      color: #1e3a5f;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+      line-height: 1.3;
+    }
+    .select-chip:hover    { border-color: #3b82f6; background: #eff6ff; }
+    .select-chip.selected { background: #1a4f8a; color: white; border-color: #1a4f8a; }
+    .select-chip.disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+
+    #start-quiz-btn {
+      background: #1a4f8a;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 36px;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s;
+    }
+    #start-quiz-btn:hover    { background: #2563eb; }
+    #start-quiz-btn:disabled { background: #93c5fd; cursor: not-allowed; }
+
+    /* ══════════════════════════════════
+       QUIZ — STEP 2: map phase
+    ══════════════════════════════════ */
+    #quiz-map-page {
+      display: none;
+      flex: 1;
+      overflow: hidden;
+    }
+    #quiz-map-page.active { display: flex; }
+
+    /* ══════════════════════════════════
+       FINISH OVERLAY (practice)
+    ══════════════════════════════════ */
+    .finish-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    .finish-overlay.show { display: flex; }
+
+    .finish-box {
+      background: white;
+      border-radius: 16px;
+      padding: 36px 48px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      max-width: 90vw;
+      direction: rtl;
+    }
+    .finish-box h2  { font-size: 1.8em; margin-bottom: 10px; color: #1a4f8a; }
+    .finish-box .score-summary {
+      font-size: 1.1em;
+      color: #333;
+      margin-bottom: 20px;
+      line-height: 1.8;
+    }
+    .finish-box .btn-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .finish-box button {
+      border: none;
+      border-radius: 10px;
+      padding: 10px 22px;
+      font-size: 0.95em;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .btn-primary-finish { background: #1a4f8a; color: white; }
+    .btn-primary-finish:hover { background: #2563eb; }
+    .btn-secondary-finish { background: #e8f0fb; color: #1a4f8a; }
+    .btn-secondary-finish:hover { background: #dbeafe; }
+
+    /* ══════════════════════════════════
+       QUIZ FINISH OVERLAY (with form)
+    ══════════════════════════════════ */
+    #quiz-finish {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    #quiz-finish.show { display: flex; }
+
+    #quiz-finish-box {
+      background: white;
+      border-radius: 16px;
+      padding: 32px 40px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      max-width: 480px;
+      width: 90vw;
+      direction: rtl;
+    }
+    #quiz-finish-box h2 { font-size: 1.7em; color: #1a4f8a; margin-bottom: 8px; }
+    #quiz-finish-box .score-line { font-size: 1.1em; color: #333; margin-bottom: 6px; }
+    #quiz-finish-box .missed-title {
+      font-size: 0.85em; color: #888; margin: 12px 0 4px;
+    }
+    #quiz-finish-box .missed-list {
+      font-size: 0.82em; color: #555; background: #f9f9f9;
+      border-radius: 8px; padding: 8px 12px; text-align: right;
+      max-height: 100px; overflow-y: auto; margin-bottom: 18px;
+      line-height: 1.7;
+    }
+
+    #student-name {
+      width: 100%;
+      padding: 10px 14px;
+      border: 2px solid #93c5fd;
+      border-radius: 8px;
+      font-size: 1em;
+      font-family: inherit;
+      text-align: right;
+      margin-bottom: 14px;
+      outline: none;
+    }
+    #student-name:focus { border-color: #3b82f6; }
+
+    #send-btn {
+      width: 100%;
+      background: #22c55e;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: inherit;
+      margin-bottom: 10px;
+      transition: background 0.2s;
+    }
+    #send-btn:hover { background: #16a34a; }
+
+    #retry-quiz-btn {
+      width: 100%;
+      background: #e8f0fb;
+      color: #1a4f8a;
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 0.9em;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    #retry-quiz-btn:hover { background: #dbeafe; }
+
+    .form-note {
+      font-size: 0.75em;
+      color: #999;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════ HEADER ══════════════════ -->
+<header>
+  <h1>🗺️ מפת ארץ ישראל</h1>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('practice')">תרגול</button>
+    <button class="tab-btn"        onclick="switchTab('quiz')">בוחן</button>
+  </div>
+  <div id="score-area">
+    <div id="score-bar">
+      <span>✅ נכון: <strong id="n-ok">0</strong></span>
+      <span>❌ שגוי: <strong id="n-err">0</strong></span>
+      <span>📍 נותר: <strong id="n-left">30</strong></span>
+    </div>
+    <button class="reset-btn" id="reset-btn" onclick="handleReset()">🔄 התחל מחדש</button>
+  </div>
+</header>
+
+<!-- ══════════════════ MAIN ══════════════════ -->
+<div class="main">
+
+  <!-- ── PRACTICE PAGE ── -->
+  <div class="page active" id="practice-page">
+    <div id="map-wrap-practice" class="map-wrap-inner" style="flex:1;position:relative;">
+      <div id="map-practice" style="width:100%;height:100%;"></div>
+      <div class="map-hint">גרור מקום מהרשימה ושחרר אותו על המפה</div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">מקומות לסימון (תרגול)</div>
+      <div class="cards-list" id="practice-cards"></div>
+    </div>
+  </div>
+
+  <!-- ── QUIZ PAGE ── -->
+  <div class="page" id="quiz-page">
+
+    <!-- Step 1: choose locations -->
+    <div id="quiz-select-screen" class="active">
+      <h2>בוחן — בחר 10 מקומות</h2>
+      <p>לחץ על 10 המקומות שברצונך לסמן על המפה</p>
+      <div id="selection-counter">נבחרו: 0 / 10</div>
+      <div class="select-grid" id="select-grid"></div>
+      <button id="start-quiz-btn" disabled onclick="startQuizMap()">▶ התחל את הבוחן</button>
+    </div>
+
+    <!-- Step 2: map -->
+    <div id="quiz-map-page">
+      <div id="map-wrap-quiz" style="flex:1;position:relative;">
+        <div id="map-quiz" style="width:100%;height:100%;"></div>
+        <div class="map-hint">גרור מקום מהרשימה ושחרר אותו על המפה</div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">מקומות לסימון (בוחן)</div>
+        <div class="cards-list" id="quiz-cards"></div>
+      </div>
+    </div>
+
+  </div><!-- /quiz-page -->
+
+</div><!-- /main -->
+
+<!-- ══════════════════ PRACTICE FINISH ══════════════════ -->
+<div class="finish-overlay" id="practice-finish">
+  <div class="finish-box">
+    <h2>🎉 כל הכבוד!</h2>
+    <div class="score-summary" id="practice-finish-msg"></div>
+    <div class="btn-row">
+      <button class="btn-secondary-finish" onclick="closePracticeFinish()">🔄 שחק שוב</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ QUIZ FINISH ══════════════════ -->
+<div id="quiz-finish">
+  <div id="quiz-finish-box">
+    <h2>🎉 סיימת את הבוחן!</h2>
+    <p class="score-line" id="qf-score"></p>
+    <div class="missed-title" id="qf-missed-title"></div>
+    <div class="missed-list"  id="qf-missed-list"></div>
+
+    <p style="font-size:0.9em;color:#555;margin-bottom:10px;">הכנס את שמך ולחץ על "שלח למורה":</p>
+    <input id="student-name" type="text" placeholder="שם מלא" />
+    <button id="send-btn" onclick="sendToTeacher()">📤 שלח תוצאות למורה</button>
+    <button id="retry-quiz-btn" onclick="restartQuiz()">🔄 בוחן חדש</button>
+    <p class="form-note">לאחר הלחיצה ייפתח טופס Google — ודא שמילאת את שמך לפני השליחה.</p>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// ═══════════════════════════════════════════════════
+// LOCATION DATA
+// ═══════════════════════════════════════════════════
+const LOCATIONS = [
+  { name: "ירושלים",                  lat: 31.7767, lng: 35.2345, tol: 15 },
+  { name: "תל אביב-יפו",             lat: 32.0853, lng: 34.7818, tol: 15 },
+  { name: "חיפה",                    lat: 32.7940, lng: 34.9896, tol: 15 },
+  { name: "ים המלח",                 lat: 31.5000, lng: 35.4800, tol: 25 },
+  { name: "הכנרת",                   lat: 32.8203, lng: 35.5847, tol: 20 },
+  { name: "אילת",                    lat: 29.5577, lng: 34.9519, tol: 12 },
+  { name: "מכתש רמון",               lat: 30.5974, lng: 34.8437, tol: 18 },
+  { name: "מצדה",                    lat: 31.3156, lng: 35.3536, tol: 12 },
+  { name: "ראש הנקרה",               lat: 33.0881, lng: 35.1053, tol: 12 },
+  { name: "קיסריה",                   lat: 32.4970, lng: 34.8984, tol: 12 },
+  { name: "עכו",                     lat: 32.9278, lng: 35.0681, tol: 12 },
+  { name: "צפת",                     lat: 32.9643, lng: 35.4960, tol: 12 },
+  { name: "טבריה",                   lat: 32.7922, lng: 35.5312, tol: 12 },
+  { name: "באר שבע",                 lat: 31.2516, lng: 34.7913, tol: 15 },
+  { name: "נהר הירדן",               lat: 32.0000, lng: 35.5500, tol: 25 },
+  { name: "החרמון",                  lat: 33.4156, lng: 35.8567, tol: 18 },
+  { name: "אצבע הגליל / עמק החולה", lat: 33.1000, lng: 35.6000, tol: 22 },
+  { name: "רמת הגולן",               lat: 32.9500, lng: 35.7500, tol: 28 },
+  { name: "גלבוע",                   lat: 32.5300, lng: 35.4300, tol: 18 },
+  { name: "נחל הירקון",              lat: 32.1000, lng: 34.8700, tol: 18 },
+  { name: "נחל קישון",               lat: 32.7000, lng: 35.0800, tol: 20 },
+  { name: "מפרץ אילת",               lat: 29.4500, lng: 34.9200, tol: 22 },
+  { name: "עמק יזרעאל",              lat: 32.6200, lng: 35.2000, tol: 28 },
+  { name: "הרי יהודה",               lat: 31.7000, lng: 35.0000, tol: 28 },
+  { name: "שפלת יהודה",              lat: 31.7000, lng: 34.8500, tol: 28 },
+  { name: "מדבר יהודה",              lat: 31.5500, lng: 35.3500, tol: 25 },
+  { name: "הנגב הצפוני",             lat: 31.1000, lng: 34.9000, tol: 30 },
+  { name: "הרי אילת",                lat: 29.7500, lng: 34.9500, tol: 22 },
+  { name: "נמל אשדוד",               lat: 31.8155, lng: 34.6453, tol: 12 },
+  { name: "קיבוץ דגניה א'",          lat: 32.7057, lng: 35.5678, tol: 10 },
+];
+
+// ─── Google Form settings ───────────────────────────────────────
+// REPLACE the entry.XXXXXXXX values after you get the pre-fill link from Google Forms
+const FORM_BASE = "https://docs.google.com/forms/d/e/1FAIpQLSfW5-QfbqjfXEa3YqFSovNFNrMYY8MzaRYdJVtfCvnoKyUACw/viewform";
+const FORM_ENTRIES = {
+  studentName:  "entry.2046505476",
+  correct:      "entry.1604998342",
+  wrong:        "entry.1947443110",
+  missedPlaces: "entry.874703713",
+};
+
+// ═══════════════════════════════════════════════════
+// MAP SETUP
+// ═══════════════════════════════════════════════════
+const TILE_URL = 'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png';
+const TILE_OPT = {
+  attribution: '© OpenStreetMap © CARTO',
+  subdomains: 'abcd', maxZoom: 20,
+};
+const MAP_CENTER = [31.5, 35.0];
+const MAP_ZOOM   = 7;
+
+const mapPractice = L.map('map-practice', { center: MAP_CENTER, zoom: MAP_ZOOM, minZoom: 6, maxZoom: 13 });
+L.tileLayer(TILE_URL, TILE_OPT).addTo(mapPractice);
+
+let mapQuiz = null; // initialised lazily when quiz tab first used
+
+// ═══════════════════════════════════════════════════
+// SHARED UTILITIES
+// ═══════════════════════════════════════════════════
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function makeLabel(loc, ok) {
+  return L.divIcon({
+    className: '',
+    html: `<div style="
+      background:${ok ? '#22c55e' : '#ef4444'};
+      color:white;padding:4px 9px;border-radius:8px;
+      font-size:11px;font-weight:bold;white-space:nowrap;
+      border:2px solid ${ok ? '#16a34a' : '#b91c1c'};
+      font-family:Arial,sans-serif;direction:rtl;
+      box-shadow:0 2px 6px rgba(0,0,0,0.25);
+    ">${loc.name} ${ok ? '✓' : '✗'}</div>`,
+    iconAnchor: [0, 0],
+  });
+}
+
+function makeCorrectLabel(loc) {
+  return L.divIcon({
+    className: '',
+    html: `<div style="
+      background:#1a4f8a;color:white;padding:4px 9px;
+      border-radius:8px;font-size:11px;white-space:nowrap;
+      border:2px solid #1e3a5f;font-family:Arial,sans-serif;
+      direction:rtl;box-shadow:0 2px 6px rgba(0,0,0,0.25);
+    ">📍 ${loc.name}</div>`,
+    iconAnchor: [0, 0],
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// TAB SWITCHING
+// ═══════════════════════════════════════════════════
+let currentTab = 'practice';
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach((b, i) =>
+    b.classList.toggle('active', ['practice','quiz'][i] === tab)
+  );
+  document.getElementById('practice-page').classList.toggle('active', tab === 'practice');
+  document.getElementById('quiz-page').classList.toggle('active',     tab === 'quiz');
+
+  // Sync score bar
+  if (tab === 'practice') {
+    syncScoreBar(pOk, pErr, LOCATIONS.length - pPlaced.size, LOCATIONS.length, true);
+  } else {
+    if (!quizMapStarted) {
+      // on select screen: hide score, show nothing
+      document.getElementById('score-bar').style.display = 'none';
+      document.getElementById('reset-btn').textContent = '🔄 אפס בחירה';
+    } else {
+      document.getElementById('score-bar').style.display = 'flex';
+      document.getElementById('reset-btn').textContent = '🔄 בוחן חדש';
+      syncScoreBar(qOk, qErr, quizLocs.length - qPlaced.size, quizLocs.length, false);
+    }
+  }
+
+  // Init quiz map lazily
+  if (tab === 'quiz' && !mapQuiz) {
+    setTimeout(() => {
+      mapQuiz = L.map('map-quiz', { center: MAP_CENTER, zoom: MAP_ZOOM, minZoom: 6, maxZoom: 13 });
+      L.tileLayer(TILE_URL, TILE_OPT).addTo(mapQuiz);
+      attachDropToMap('map-quiz', mapQuiz, 'quiz');
+    }, 50);
+  }
+}
+
+function syncScoreBar(ok, err, left, total, show) {
+  document.getElementById('score-bar').style.display = show ? 'flex' : (show === false ? 'none' : 'flex');
+  document.getElementById('n-ok').textContent   = ok;
+  document.getElementById('n-err').textContent  = err;
+  document.getElementById('n-left').textContent = left;
+}
+
+function handleReset() {
+  if (currentTab === 'practice') resetPractice();
+  else restartQuiz();
+}
+
+// ═══════════════════════════════════════════════════
+// PRACTICE
+// ═══════════════════════════════════════════════════
+let pPlaced  = new Set();
+let pLayers  = [];
+let pOk = 0, pErr = 0;
+
+function buildPracticeCards() {
+  const container = document.getElementById('practice-cards');
+  container.innerHTML = '';
+  const order = shuffle([...Array(LOCATIONS.length).keys()]);
+  order.forEach(idx => {
+    const loc  = LOCATIONS[idx];
+    const card = document.createElement('div');
+    card.className   = 'loc-card';
+    card.textContent = loc.name;
+    card.draggable   = true;
+    card.dataset.idx = idx;
+    card.dataset.mode = 'practice';
+    card.addEventListener('dragstart', onDragStart);
+    card.addEventListener('dragend',   onDragEnd);
+    container.appendChild(card);
+  });
+}
+
+function resetPractice() {
+  pPlaced.clear(); pOk = 0; pErr = 0;
+  pLayers.forEach(l => mapPractice.removeLayer(l));
+  pLayers = [];
+  document.getElementById('practice-finish').classList.remove('show');
+  syncScoreBar(0, 0, LOCATIONS.length, LOCATIONS.length, true);
+  buildPracticeCards();
+}
+
+function closePracticeFinish() {
+  document.getElementById('practice-finish').classList.remove('show');
+  resetPractice();
+}
+
+// ═══════════════════════════════════════════════════
+// QUIZ — STEP 1: SELECT
+// ═══════════════════════════════════════════════════
+const MAX_SELECT = 10;
+let selectedIdxs = new Set();
+
+function buildSelectGrid() {
+  const grid = document.getElementById('select-grid');
+  grid.innerHTML = '';
+  LOCATIONS.forEach((loc, idx) => {
+    const chip = document.createElement('div');
+    chip.className   = 'select-chip';
+    chip.textContent = loc.name;
+    chip.dataset.idx = idx;
+    chip.addEventListener('click', () => toggleSelect(chip, idx));
+    grid.appendChild(chip);
+  });
+}
+
+function toggleSelect(chip, idx) {
+  if (selectedIdxs.has(idx)) {
+    selectedIdxs.delete(idx);
+    chip.classList.remove('selected');
+  } else {
+    if (selectedIdxs.size >= MAX_SELECT) return;
+    selectedIdxs.add(idx);
+    chip.classList.add('selected');
+  }
+  const count = selectedIdxs.size;
+  document.getElementById('selection-counter').textContent = `נבחרו: ${count} / ${MAX_SELECT}`;
+  document.getElementById('start-quiz-btn').disabled = (count !== MAX_SELECT);
+
+  // Dim unselected chips when at max
+  document.querySelectorAll('.select-chip').forEach(c => {
+    const i = parseInt(c.dataset.idx);
+    c.classList.toggle('disabled', count >= MAX_SELECT && !selectedIdxs.has(i));
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// QUIZ — STEP 2: MAP
+// ═══════════════════════════════════════════════════
+let quizLocs = [];
+let qPlaced  = new Set();
+let qLayers  = [];
+let qOk = 0, qErr = 0;
+let quizMissed = [];
+let quizMapStarted = false;
+
+function startQuizMap() {
+  quizLocs = [...selectedIdxs].map(i => LOCATIONS[i]);
+  qPlaced.clear(); qOk = 0; qErr = 0; qLayers = []; quizMissed = [];
+  quizMapStarted = true;
+
+  // Hide select screen, show map
+  document.getElementById('quiz-select-screen').classList.remove('active');
+  document.getElementById('quiz-map-page').classList.add('active');
+
+  // Update header
+  document.getElementById('score-bar').style.display = 'flex';
+  document.getElementById('reset-btn').textContent = '🔄 בוחן חדש';
+  syncScoreBar(0, 0, quizLocs.length, quizLocs.length, true);
+
+  // Build quiz cards
+  const container = document.getElementById('quiz-cards');
+  container.innerHTML = '';
+  const order = shuffle([...Array(quizLocs.length).keys()]);
+  order.forEach(i => {
+    const loc  = quizLocs[i];
+    const card = document.createElement('div');
+    card.className    = 'loc-card';
+    card.textContent  = loc.name;
+    card.draggable    = true;
+    card.dataset.idx  = i;
+    card.dataset.mode = 'quiz';
+    card.addEventListener('dragstart', onDragStart);
+    card.addEventListener('dragend',   onDragEnd);
+    container.appendChild(card);
+  });
+
+  // Trigger map resize
+  if (mapQuiz) setTimeout(() => mapQuiz.invalidateSize(), 100);
+}
+
+function restartQuiz() {
+  // Reset quiz state
+  qPlaced.clear(); qOk = 0; qErr = 0;
+  qLayers.forEach(l => { if (mapQuiz) mapQuiz.removeLayer(l); });
+  qLayers = []; quizMissed = []; quizMapStarted = false;
+  selectedIdxs.clear();
+  document.getElementById('quiz-finish').classList.remove('show');
+
+  // Back to select screen
+  document.getElementById('quiz-map-page').classList.remove('active');
+  document.getElementById('quiz-select-screen').classList.add('active');
+  document.getElementById('score-bar').style.display = 'none';
+  document.getElementById('reset-btn').textContent = '🔄 אפס בחירה';
+
+  // Reset chips
+  document.querySelectorAll('.select-chip').forEach(c => {
+    c.classList.remove('selected', 'disabled');
+  });
+  document.getElementById('selection-counter').textContent = 'נבחרו: 0 / 10';
+  document.getElementById('start-quiz-btn').disabled = true;
+  document.getElementById('student-name').value = '';
+}
+
+// ═══════════════════════════════════════════════════
+// DRAG & DROP
+// ═══════════════════════════════════════════════════
+function onDragStart(e) {
+  const card = e.currentTarget;
+  e.dataTransfer.setData('text/plain', JSON.stringify({
+    idx: parseInt(card.dataset.idx),
+    mode: card.dataset.mode,
+  }));
+  setTimeout(() => card.classList.add('dragging'), 0);
+}
+function onDragEnd(e) { e.currentTarget.classList.remove('dragging'); }
+
+function attachDropToMap(mapElId, mapObj, mode) {
+  const el = document.getElementById(mapElId);
+  el.addEventListener('dragover', e => { e.preventDefault(); el.classList.add('over'); });
+  el.addEventListener('dragleave', () => el.classList.remove('over'));
+  el.addEventListener('drop', e => {
+    e.preventDefault();
+    el.classList.remove('over');
+
+    let payload;
+    try { payload = JSON.parse(e.dataTransfer.getData('text/plain')); } catch { return; }
+    if (payload.mode !== mode) return;
+
+    const { idx } = payload;
+    const locs   = mode === 'practice' ? LOCATIONS : quizLocs;
+    const placed = mode === 'practice' ? pPlaced   : qPlaced;
+    if (placed.has(idx)) return;
+
+    const loc = locs[idx];
+    placed.add(idx);
+
+    const rect    = el.getBoundingClientRect();
+    const point   = L.point(e.clientX - rect.left, e.clientY - rect.top);
+    const dropped = mapObj.containerPointToLatLng(point);
+    const correct = L.latLng(loc.lat, loc.lng);
+    const distKm  = dropped.distanceTo(correct) / 1000;
+    const ok      = distKm <= loc.tol;
+
+    // Update card
+    const cardEl = document.querySelector(`.loc-card[data-mode="${mode}"][data-idx="${idx}"]`);
+    if (cardEl) { cardEl.classList.add(ok ? 'done-ok' : 'done-err'); cardEl.draggable = false; }
+
+    // Add markers
+    const layers = mode === 'practice' ? pLayers : qLayers;
+    const dm = L.marker(dropped, { icon: makeLabel(loc, ok) }).addTo(mapObj);
+    layers.push(dm);
+
+    if (!ok) {
+      const cm = L.marker(correct, { icon: makeCorrectLabel(loc) }).addTo(mapObj);
+      const ln = L.polyline([dropped, correct], { color: '#ef4444', weight: 2, dashArray: '6,5', opacity: 0.8 }).addTo(mapObj);
+      layers.push(cm, ln);
+      if (mode === 'quiz') quizMissed.push(loc.name);
+    }
+
+    // Update score
+    if (mode === 'practice') {
+      ok ? pOk++ : pErr++;
+      syncScoreBar(pOk, pErr, LOCATIONS.length - pPlaced.size, LOCATIONS.length, true);
+      if (pPlaced.size === LOCATIONS.length) setTimeout(showPracticeFinish, 600);
+    } else {
+      ok ? qOk++ : qErr++;
+      syncScoreBar(qOk, qErr, quizLocs.length - qPlaced.size, quizLocs.length, true);
+      if (qPlaced.size === quizLocs.length) setTimeout(showQuizFinish, 600);
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// FINISH SCREENS
+// ═══════════════════════════════════════════════════
+function showPracticeFinish() {
+  document.getElementById('practice-finish-msg').innerHTML =
+    `✅ נכון: <strong>${pOk}</strong> &nbsp;|&nbsp; ❌ שגוי: <strong>${pErr}</strong><br>מתוך ${LOCATIONS.length} מקומות`;
+  document.getElementById('practice-finish').classList.add('show');
+}
+
+function showQuizFinish() {
+  document.getElementById('qf-score').innerHTML =
+    `✅ נכון: <strong>${qOk}</strong> מתוך ${quizLocs.length} &nbsp;|&nbsp; ❌ שגוי: <strong>${qErr}</strong>`;
+
+  if (quizMissed.length > 0) {
+    document.getElementById('qf-missed-title').textContent = 'מקומות שפספסת:';
+    document.getElementById('qf-missed-list').textContent  = quizMissed.join(' ,  ');
+  } else {
+    document.getElementById('qf-missed-title').textContent = '';
+    document.getElementById('qf-missed-list').textContent  = '';
+  }
+
+  document.getElementById('quiz-finish').classList.add('show');
+}
+
+// ═══════════════════════════════════════════════════
+// SEND TO TEACHER (Google Form pre-fill)
+// ═══════════════════════════════════════════════════
+function sendToTeacher() {
+  const name = document.getElementById('student-name').value.trim();
+  if (!name) {
+    document.getElementById('student-name').focus();
+    document.getElementById('student-name').style.borderColor = '#ef4444';
+    return;
+  }
+  document.getElementById('student-name').style.borderColor = '#93c5fd';
+
+  const missed = quizMissed.length > 0 ? quizMissed.join(', ') : 'ללא שגיאות';
+
+  const url = FORM_BASE
+    + '?'  + FORM_ENTRIES.studentName  + '=' + encodeURIComponent(name)
+    + '&'  + FORM_ENTRIES.correct      + '=' + encodeURIComponent(String(qOk))
+    + '&'  + FORM_ENTRIES.wrong        + '=' + encodeURIComponent(String(qErr))
+    + '&'  + FORM_ENTRIES.missedPlaces + '=' + encodeURIComponent(missed);
+
+  window.open(url, '_blank');
+}
+
+// ═══════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════
+attachDropToMap('map-practice', mapPractice, 'practice');
+buildPracticeCards();
+buildSelectGrid();
+
+// Start with score bar showing practice stats
+document.getElementById('score-bar').style.display = 'flex';
+syncScoreBar(0, 0, LOCATIONS.length, LOCATIONS.length, true);
+</script>
+</body>
+</html>
