@@ -1,0 +1,2549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>7th Grade English Practice | תרגול אנגלית כיתה ז׳</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ── RESET & VARS ── */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary:   #0EA5E9;
+      --secondary: #22D3EE;
+      --success:   #10B981;
+      --danger:    #F43F5E;
+      --warning:   #F59E0B;
+      --dark:      #0F172A;
+      --text:      #1E293B;
+      --muted:     #64748B;
+      --card:      rgba(240,249,255,0.98);
+      --radius:    22px;
+      --shadow:    0 24px 64px rgba(14,165,233,0.18);
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      color: var(--text);
+      background: linear-gradient(-45deg, #0F172A, #0C4A6E, #0E7490, #164E63, #083344);
+      background-size: 500% 500%;
+      animation: bgAnim 14s ease infinite;
+      overflow-x: hidden;
+    }
+
+    /* Animated background blobs */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      animation: blob 10s ease-in-out infinite;
+      z-index: 0;
+      pointer-events: none;
+    }
+    body::before { width: 500px; height: 500px; top: -150px; left: -150px; }
+    body::after  { width: 380px; height: 380px; bottom: -120px; right: -120px; animation-delay: -5s; }
+
+    @keyframes bgAnim {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes blob {
+      0%, 100% { transform: scale(1) translate(0, 0); }
+      33%  { transform: scale(1.1) translate(20px, -20px); }
+      66%  { transform: scale(0.9) translate(-10px, 15px); }
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid rgba(255,255,255,0.18);
+      padding: 13px 20px;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+    .nav-btn {
+      background: rgba(255,255,255,0.18);
+      border: 1.5px solid rgba(255,255,255,0.35);
+      color: white;
+      padding: 8px 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+      letter-spacing: 0.2px;
+    }
+    .nav-btn:hover {
+      background: white;
+      color: var(--primary);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+    }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 680px;
+      margin: 32px auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 36px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), var(--warning));
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+
+    /* Card entrance */
+    .card-anim { animation: fadeSlideUp 0.45s cubic-bezier(0.22,1,0.36,1) both; }
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(32px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0)    scale(1); }
+    }
+
+    .hidden { display: none !important; }
+
+    /* ── SECTION HEADER ── */
+    .section-header { text-align: center; margin-bottom: 24px; }
+    .section-header h1 {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .heb { direction: rtl; color: var(--muted); font-size: 15px; margin-top: 5px; font-weight: 400; }
+
+    /* ── PROGRESS ── */
+    .prog-bar {
+      background: #f0f0f8;
+      border-radius: 50px;
+      height: 10px;
+      overflow: hidden;
+      margin: 14px 0 6px;
+    }
+    .prog-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 50px;
+      transition: width 0.55s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: 0 0 8px rgba(14,165,233,0.5);
+    }
+    .prog-text {
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 20px;
+      letter-spacing: 0.3px;
+    }
+
+    /* ── QUESTION WORD ── */
+    .q-word {
+      text-align: center;
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--primary);
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border-radius: 16px;
+      padding: 22px;
+      margin: 16px 0;
+      border: 2px solid rgba(14,165,233,0.12);
+      letter-spacing: 0.5px;
+    }
+    .q-word.anim { animation: wordPop 0.4s cubic-bezier(0.34,1.56,0.64,1) both; }
+    @keyframes wordPop {
+      from { opacity: 0; transform: scale(0.82) translateY(8px); }
+      to   { opacity: 1; transform: scale(1)    translateY(0); }
+    }
+
+    .q-instruction { text-align: center; font-size: 15px; color: var(--muted); font-weight: 500; margin-bottom: 14px; }
+
+    /* ── INPUT ── */
+    .ans-input {
+      width: 100%;
+      padding: 17px 22px;
+      font-size: 19px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      border: 2px solid #eaeaf8;
+      border-radius: 14px;
+      outline: none;
+      transition: all 0.25s;
+      background: #fafafe;
+      color: var(--text);
+    }
+    .ans-input:focus {
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 5px rgba(14,165,233,0.1);
+      transform: scale(1.01);
+    }
+
+    /* ── BUTTONS ── */
+    .btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+      margin-top: 12px;
+      letter-spacing: 0.3px;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn:active { transform: scale(0.96) !important; }
+    .btn-blue   { background: linear-gradient(135deg, #0EA5E9, #38BDF8); color: white; box-shadow: 0 8px 24px rgba(14,165,233,0.38); }
+    .btn-green  { background: linear-gradient(135deg, #10B981, #34D399); color: white; box-shadow: 0 8px 24px rgba(16,185,129,0.38); }
+    .btn-gray   { background: linear-gradient(135deg, #8e8ea8, #aaaacc); color: white; }
+    .btn-yellow { background: linear-gradient(135deg, #FFA502, #ffcc02); color: white; box-shadow: 0 8px 24px rgba(255,165,2,0.35); }
+    .btn:hover  { transform: translateY(-3px); filter: brightness(1.06); }
+
+    /* Ripple on btn click */
+    .btn .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      transform: scale(0);
+      animation: ripple 0.5s linear;
+      pointer-events: none;
+    }
+    @keyframes ripple {
+      to { transform: scale(4); opacity: 0; }
+    }
+
+    /* ── OPTION BUTTONS ── */
+    .opt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
+    .opt-btn {
+      padding: 16px 12px;
+      border: 2px solid #eaeaf8;
+      border-radius: 14px;
+      background: white;
+      cursor: pointer;
+      font-size: 15px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      transition: all 0.22s cubic-bezier(0.34,1.56,0.64,1);
+      text-align: center;
+      color: var(--text);
+    }
+    .opt-btn:hover:not(:disabled) {
+      border-color: var(--primary);
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 20px rgba(14,165,233,0.18);
+    }
+    .opt-btn.correct {
+      border-color: var(--success);
+      background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+      color: #059669;
+      font-weight: 700;
+      animation: bounceUp 0.45s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .opt-btn.wrong {
+      border-color: var(--danger);
+      background: linear-gradient(135deg, #fff0f0, #ffe0e0);
+      color: var(--danger);
+      font-weight: 700;
+      animation: shake 0.4s ease;
+    }
+    @keyframes bounceUp {
+      0%   { transform: scale(1); }
+      40%  { transform: scale(1.1); }
+      100% { transform: scale(1.03); }
+    }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%  { transform: translateX(-7px); }
+      40%  { transform: translateX(7px); }
+      60%  { transform: translateX(-4px); }
+      80%  { transform: translateX(4px); }
+    }
+
+    /* ── FEEDBACK ── */
+    .feedback {
+      text-align: center;
+      padding: 16px 20px;
+      border-radius: 14px;
+      font-size: 17px;
+      font-weight: 700;
+      margin: 14px 0;
+    }
+    .feedback.correct {
+      background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+      color: #059669;
+      border: 1.5px solid rgba(16,185,129,0.25);
+      animation: feedbackPop 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .feedback.wrong {
+      background: linear-gradient(135deg, #fff0f0, #ffe0e0);
+      color: var(--danger);
+      border: 1.5px solid rgba(255,71,87,0.25);
+      animation: shake 0.4s ease;
+    }
+    @keyframes feedbackPop {
+      from { opacity: 0; transform: scale(0.9); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* ── HINT ── */
+    .hint-display {
+      text-align: center;
+      font-size: 28px;
+      font-family: 'Fira Code', 'Courier New', monospace;
+      letter-spacing: 7px;
+      color: #a06000;
+      background: linear-gradient(135deg, #fffde7, #fff3cc);
+      border: 2px dashed var(--warning);
+      border-radius: 14px;
+      padding: 14px;
+      margin: 10px 0;
+      font-weight: 500;
+      animation: hintGlow 0.35s ease;
+    }
+    @keyframes hintGlow {
+      0%   { box-shadow: 0 0 0   rgba(255,165,0,0);   transform: scale(1); }
+      40%  { box-shadow: 0 0 30px rgba(255,165,0,0.5); transform: scale(1.02); }
+      100% { box-shadow: 0 0 0   rgba(255,165,0,0);   transform: scale(1); }
+    }
+
+    /* ── SCORE SCREEN ── */
+    .score-screen { text-align: center; }
+    .score-circle {
+      width: 136px; height: 136px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      margin: 0 auto 22px;
+      font-size: 34px; font-weight: 800;
+      box-shadow: 0 16px 48px rgba(14,165,233,0.45);
+      animation: scorePop 0.65s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    @keyframes scorePop {
+      from { transform: scale(0) rotate(-15deg); opacity: 0; }
+      to   { transform: scale(1) rotate(0deg);   opacity: 1; }
+    }
+    .score-circle span.lbl { font-size: 12px; font-weight: 500; opacity: 0.85; }
+    .score-msg { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+    .review-list { text-align: left; margin-top: 22px; }
+    .review-item {
+      background: linear-gradient(135deg, #fff4f4, #ffe8e8);
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      border-left: 4px solid var(--danger);
+    }
+    .correct-answer { color: var(--success); font-weight: 700; }
+
+    /* ── HOME ── */
+    .home-top { text-align: center; }
+    .home-top h1 {
+      font-size: 34px; font-weight: 900; letter-spacing: -1px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .test-date {
+      display: inline-block;
+      background: linear-gradient(135deg, #0EA5E9, #22D3EE);
+      color: white; font-size: 14px; font-weight: 700;
+      padding: 7px 20px; border-radius: 50px;
+      margin: 10px 0 18px;
+      box-shadow: 0 8px 20px rgba(14,165,233,0.4);
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 8px 20px rgba(14,165,233,0.4); }
+      50%      { box-shadow: 0 12px 32px rgba(14,165,233,0.65); transform: scale(1.02); }
+    }
+
+    .sec-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 26px; }
+    .sec-card {
+      border: none; border-radius: 20px;
+      padding: 24px 16px; color: white;
+      cursor: pointer; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      text-align: center; font-family: 'Poppins', sans-serif;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.18);
+    }
+    .sec-card:hover { transform: translateY(-6px) scale(1.03); box-shadow: 0 20px 48px rgba(0,0,0,0.25); }
+    .sec-card .em { font-size: 34px; margin-bottom: 10px; display: block; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2)); }
+    .sec-card h3  { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .sec-card p   { font-size: 12px; opacity: 0.88; }
+    .c1 { background: linear-gradient(135deg, #0EA5E9, #38BDF8); }
+    .c2 { background: linear-gradient(135deg, #06B6D4, #22D3EE); }
+    .c3 { background: linear-gradient(135deg, #0284C7, #0EA5E9); }
+    .c4 { background: linear-gradient(135deg, #10B981, #34D399); }
+    .c4 h3, .c4 p { color: white; }
+
+    /* ── INFO BOX ── */
+    .info-box {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 13px;
+      margin-bottom: 18px;
+      line-height: 1.9;
+      border: 1.5px solid rgba(14,165,233,0.2);
+    }
+
+    /* ── WRITING ── */
+    .w-prompt {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border-radius: 14px; padding: 18px;
+      margin-bottom: 14px; font-size: 17px; font-weight: 600;
+      border-left: 5px solid var(--primary);
+    }
+    .w-prompt .heb { font-size: 13px; color: var(--muted); margin-top: 6px; font-weight: 400; }
+    .w-textarea {
+      width: 100%; height: 175px;
+      padding: 15px; font-size: 16px;
+      font-family: 'Poppins', sans-serif;
+      border: 2px solid #eaeaf8;
+      border-radius: 14px; resize: vertical; outline: none;
+      line-height: 1.75; transition: all 0.25s; color: var(--text);
+      background: #fafafe;
+    }
+    .w-textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 5px rgba(14,165,233,0.1);
+      background: white;
+    }
+    .word-count-wrap { text-align: right; margin-top: 8px; }
+    .word-count {
+      display: inline-block;
+      font-size: 13px; font-weight: 700;
+      padding: 5px 14px; border-radius: 50px;
+      transition: all 0.3s;
+    }
+    .word-count.low  { background: #fff0f0; color: var(--danger); }
+    .word-count.good { background: #e6fff8; color: #059669; animation: goodPulse 0.5s ease; }
+    .word-count.high { background: #fff8e1; color: var(--warning); }
+    @keyframes goodPulse {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    .bank-section { margin-top: 22px; }
+    .bank-section h3 { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+    .bank-label {
+      font-weight: 700; font-size: 11px; color: var(--muted);
+      margin: 12px 0 7px; text-transform: uppercase; letter-spacing: 1px;
+    }
+    .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+    .chip {
+      padding: 5px 14px; border-radius: 50px; font-size: 13px;
+      cursor: pointer; transition: all 0.22s cubic-bezier(0.34,1.56,0.64,1);
+      border: 1.5px solid; font-family: 'Poppins', sans-serif; font-weight: 500;
+    }
+    .chip:hover { transform: translateY(-3px) scale(1.06); box-shadow: 0 6px 16px rgba(0,0,0,0.14); }
+    .chip-blue  { background: #eef2ff; border-color: var(--primary); color: var(--primary); }
+    .chip-blue:hover  { background: var(--primary); color: white; }
+    .chip-green { background: #e6fff8; border-color: var(--success); color: #059669; }
+    .chip-green:hover { background: var(--success); color: white; }
+    .chip-red   { background: #fff0f0; border-color: var(--danger); color: var(--danger); }
+    .chip-red:hover   { background: var(--danger); color: white; }
+
+    .checklist {
+      background: linear-gradient(135deg, #fffde7, #fff8e1);
+      border-radius: 18px; padding: 20px; margin-top: 22px;
+      border: 1.5px solid rgba(255,165,0,0.2);
+      box-shadow: 0 4px 16px rgba(255,165,0,0.08);
+    }
+    .checklist h3 { font-size: 15px; font-weight: 700; color: #856404; margin-bottom: 14px; }
+    .check-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; cursor: pointer; }
+    .check-row input { width: 18px; height: 18px; cursor: pointer; flex-shrink: 0; margin-top: 2px; accent-color: var(--primary); }
+    .check-row label { font-size: 14px; cursor: pointer; font-weight: 500; }
+
+    /* ── CHECK TEXT RESULT ── */
+    .check-result-panel {
+      margin-top: 16px;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 2px solid #eaeaf8;
+      animation: fadeSlideUp 0.4s cubic-bezier(0.22,1,0.36,1) both;
+      box-shadow: 0 8px 28px rgba(14,165,233,0.1);
+    }
+    .check-result-header {
+      background: linear-gradient(135deg, var(--primary), #9b93ff);
+      color: white;
+      padding: 13px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      font-size: 15px;
+    }
+    .check-close-btn {
+      background: rgba(255,255,255,0.2);
+      border: none; color: white;
+      width: 28px; height: 28px;
+      border-radius: 50%; cursor: pointer;
+      font-size: 14px; font-weight: bold;
+      transition: all 0.2s; flex-shrink: 0;
+    }
+    .check-close-btn:hover { background: rgba(255,255,255,0.4); transform: scale(1.1); }
+    .annotated-box {
+      padding: 18px;
+      font-size: 16px;
+      line-height: 2;
+      background: #fafafe;
+      font-family: 'Poppins', sans-serif;
+      border-bottom: 1px solid #eaeaf8;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    /* Error highlight types */
+    .err-verb {
+      background: #ffd6d6;
+      border-bottom: 2.5px solid var(--danger);
+      border-radius: 4px;
+      padding: 1px 4px;
+      cursor: help;
+      font-weight: 700;
+      transition: background 0.2s;
+    }
+    .err-verb:hover { background: #ffb3b3; }
+    .err-capital {
+      background: #ffe0b2;
+      border-bottom: 2.5px solid var(--warning);
+      border-radius: 4px;
+      padding: 1px 4px;
+      cursor: help;
+      font-weight: 700;
+    }
+    .err-capital:hover { background: #ffcc80; }
+    .err-punct {
+      background: #fff9c4;
+      border-bottom: 2.5px solid #f9a825;
+      border-radius: 4px;
+      padding: 1px 4px;
+      cursor: help;
+    }
+    .check-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 10px 16px;
+      background: #f8f9ff;
+      border-bottom: 1px solid #eaeaf8;
+      font-size: 12px;
+      font-weight: 600;
+      align-items: center;
+    }
+    .legend-chip { display: flex; align-items: center; gap: 6px; }
+    .err-list { padding: 14px 16px; }
+    .err-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 9px 13px;
+      border-radius: 10px;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+    .err-item.verb    { background: #fff0f0; border-left: 4px solid var(--danger); }
+    .err-item.capital { background: #fff5ee; border-left: 4px solid var(--warning); }
+    .err-item.punct   { background: #fffff0; border-left: 4px solid #f9a825; }
+    .no-errors {
+      text-align: center; padding: 24px;
+      font-size: 18px; font-weight: 800;
+      color: var(--success);
+      animation: scorePop 0.5s cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+    /* ── CONFETTI ── */
+    .confetti-container {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 999; overflow: hidden;
+    }
+    .confetti-piece {
+      position: absolute;
+      border-radius: 2px;
+      animation: confFall linear forwards;
+    }
+    @keyframes confFall {
+      0%   { transform: translateY(-30px) rotate(0deg); opacity: 1; }
+      85%  { opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* ── CHANGE TOPIC BTN ── */
+    .topic-btn {
+      background: none;
+      border: 1.5px solid #d0d0e8;
+      padding: 6px 16px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 12px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 14px;
+      transition: all 0.2s;
+    }
+    .topic-btn:hover { border-color: var(--primary); color: var(--primary); transform: scale(1.05); }
+
+    /* ── EMOJI BURST ── */
+    .emoji-burst {
+      position: fixed;
+      font-size: 28px;
+      pointer-events: none;
+      z-index: 998;
+      animation: emojiFly 0.9s ease-out forwards;
+    }
+    @keyframes emojiFly {
+      0%   { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-100px) scale(1.4); }
+    }
+
+    /* ── SCRAMBLE GAME ── */
+    .scramble-slots {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      justify-content: center; align-items: center;
+      min-height: 62px; padding: 12px;
+      border: 2px dashed #d0d0e8; border-radius: 14px;
+      background: #f8f9ff; margin: 14px 0;
+    }
+    .sc-slot {
+      min-width: 36px; height: 48px; padding: 0 3px;
+      border-bottom: 3px solid var(--primary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 700; color: var(--primary);
+      cursor: pointer; transition: all 0.2s;
+    }
+    .sc-slot.space-slot { min-width: 14px; border-bottom: none; cursor: default; }
+    .sc-slot.filled { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-radius: 8px; }
+    .sc-tiles { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 14px 0; }
+    .sc-tile {
+      min-width: 44px; height: 50px; padding: 0 8px;
+      background: linear-gradient(135deg, #fff, #f0f9ff);
+      border: 2px solid rgba(14,165,233,0.3); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 700; color: var(--text);
+      cursor: pointer; transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.08); user-select: none;
+    }
+    .sc-tile:hover:not(.used) {
+      transform: translateY(-4px) scale(1.08);
+      border-color: var(--primary);
+      box-shadow: 0 8px 20px rgba(14,165,233,0.25);
+      background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+    }
+    .sc-tile.used { opacity: 0.2; cursor: default; transform: none !important; box-shadow: none; }
+    .mode-btns { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
+
+    /* ── MATCH THE PAIRS ── */
+    .match-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 9px; margin: 16px 0;
+    }
+    .match-item {
+      padding: 13px 10px; border: 2px solid #eaeaf8; border-radius: 12px;
+      background: white; cursor: pointer; font-size: 14px; font-weight: 600;
+      text-align: center; transition: all 0.22s cubic-bezier(0.34,1.56,0.64,1);
+      font-family: 'Poppins', sans-serif; color: var(--text);
+      min-height: 52px; display: flex; align-items: center; justify-content: center;
+    }
+    .match-item:hover:not(.matched):not(.selected):not(.wrong) {
+      border-color: var(--primary);
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      transform: scale(1.03);
+    }
+    .match-item.selected {
+      border-color: var(--primary);
+      background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+      color: var(--primary); transform: scale(1.04);
+      box-shadow: 0 4px 16px rgba(14,165,233,0.3);
+    }
+    .match-item.matched {
+      border-color: var(--success);
+      background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+      color: #059669; cursor: default; font-weight: 700;
+    }
+    .match-item.wrong {
+      border-color: var(--danger);
+      background: linear-gradient(135deg, #fff0f0, #ffe0e0);
+      color: var(--danger); animation: shake 0.4s ease;
+    }
+
+    /* ── SENTENCE BUILDER ── */
+    .word-slots {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      justify-content: center; align-items: flex-end;
+      min-height: 56px; padding: 12px;
+      border: 2px dashed #d0d0e8; border-radius: 14px;
+      background: #f8f9ff; margin: 14px 0;
+    }
+    .word-slot {
+      padding: 8px 11px; min-width: 44px;
+      border-bottom: 3px solid var(--primary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 700; color: var(--primary);
+      cursor: pointer; transition: all 0.2s; white-space: nowrap;
+    }
+    .word-slot.filled {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border-radius: 8px;
+    }
+    .word-tiles { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 14px 0; }
+    .word-tile {
+      padding: 10px 14px;
+      background: linear-gradient(135deg, #fff, #f0f9ff);
+      border: 2px solid rgba(14,165,233,0.3); border-radius: 10px;
+      font-size: 15px; font-weight: 600; color: var(--text);
+      cursor: pointer; transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.08); user-select: none; white-space: nowrap;
+    }
+    .word-tile:hover:not(.used) {
+      transform: translateY(-3px) scale(1.05); border-color: var(--primary);
+      box-shadow: 0 6px 18px rgba(14,165,233,0.25);
+      background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+    }
+    .word-tile.used { opacity: 0.2; cursor: default; transform: none !important; box-shadow: none; }
+
+    /* ── TEST SIMULATION ── */
+    .t-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white; font-size: 12px; font-weight: 700;
+      padding: 5px 18px; border-radius: 50px; margin-bottom: 16px;
+      letter-spacing: 0.3px;
+    }
+    .score-breakdown { background: #f8f9ff; border-radius: 14px; padding: 4px 16px; margin: 16px 0; }
+    .breakdown-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid #eaeaf8;
+      font-size: 14px; font-weight: 600;
+    }
+    .breakdown-row:last-child { border-bottom: none; }
+    .breakdown-score { font-size: 17px; font-weight: 800; color: var(--primary); }
+    .opt-btn.t-selected {
+      border-color: var(--primary);
+      background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+      color: var(--primary); font-weight: 700;
+    }
+    .c5 { background: linear-gradient(135deg, #F59E0B, #FBBF24); }
+
+    @media (max-width: 480px) {
+      .opt-grid   { grid-template-columns: 1fr; }
+      .sec-cards  { grid-template-columns: 1fr; }
+      .card       { padding: 22px 18px; }
+      .q-word     { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <button class="nav-btn" onclick="goHome()">🏠 Home</button>
+  <button class="nav-btn" onclick="goSection('spelling')">✏️ Spelling</button>
+  <button class="nav-btn" onclick="goSection('meaning')">📖 Meaning</button>
+  <button class="nav-btn" onclick="goSection('grammar')">📝 Grammar</button>
+  <button class="nav-btn" onclick="goSection('writing')">✍️ Writing</button>
+  <button class="nav-btn" onclick="goSection('test')">📋 Test</button>
+</nav>
+
+<div class="container">
+
+  <!-- ════ HOME ════ -->
+  <div id="s-home" class="card card-anim home-top">
+    <div style="font-size:56px; margin-bottom:14px; filter:drop-shadow(0 4px 8px rgba(14,165,233,0.3));">📚</div>
+    <h1>English Practice</h1>
+    <div class="heb" style="font-size:17px; margin-top:6px;">תרגול אנגלית כיתה ז׳</div>
+    <div class="test-date">📅 Test: February 26–27, 2026</div>
+    <p style="color:var(--muted); font-size:14px; font-weight:500;">Choose a section to start practicing!</p>
+    <div class="heb" style="margin-top:4px;">בחרו חלק לתרגול. תוכלו לתרגל כמה פעמים שתרצו!</div>
+
+    <div class="sec-cards">
+      <button class="sec-card c1" onclick="goSection('spelling')">
+        <span class="em">✏️</span>
+        <h3>Spelling</h3>
+        <p>איות מילים<br>Type the English word</p>
+      </button>
+      <button class="sec-card c2" onclick="goSection('meaning')">
+        <span class="em">📖</span>
+        <h3>Meaning</h3>
+        <p>משמעות מילים<br>Choose the correct meaning</p>
+      </button>
+      <button class="sec-card c3" onclick="goSection('grammar')">
+        <span class="em">📝</span>
+        <h3>Grammar</h3>
+        <p>דקדוק – Past Simple<br>Past tense sentences</p>
+      </button>
+      <button class="sec-card c4" onclick="goSection('writing')">
+        <span class="em">✍️</span>
+        <h3>Writing</h3>
+        <p>כתיבה<br>Practice writing in past tense</p>
+      </button>
+      <button class="sec-card c5" onclick="goSection('test')" style="grid-column: 1 / -1;">
+        <span class="em">📋</span>
+        <h3>Test Simulation</h3>
+        <p>סימולציית מבחן &nbsp;|&nbsp; 34 questions — see your full score at the end</p>
+      </button>
+    </div>
+  </div>
+
+  <!-- ════ SPELLING ════ -->
+  <div id="s-spelling" class="hidden">
+    <div id="sp-quiz" class="card card-anim">
+      <div class="section-header">
+        <h1>✏️ Spelling Quiz</h1>
+        <div class="heb">קיז איות — כתבו את המילה באנגלית</div>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="sp-prog"></div></div>
+      <div class="prog-text" id="sp-prog-text"></div>
+
+      <p class="q-instruction">
+        What is the English word for? &nbsp;|&nbsp;
+        <span style="direction:rtl;display:inline-block;">מה המילה באנגלית?</span>
+      </p>
+      <div class="q-word" id="sp-word" style="direction:rtl;"></div>
+
+      <input class="ans-input" id="sp-input" type="text"
+        placeholder="Type the English word here..."
+        onkeydown="if(event.key==='Enter') spCheck()">
+
+      <button class="btn btn-yellow" id="sp-btn-hint" onclick="spHint()" style="font-size:14px; padding:11px;">
+        💡 Hint – show a letter &nbsp;|&nbsp; רמז – גלו אות
+      </button>
+      <div class="hint-display hidden" id="sp-hint-display"></div>
+
+      <div class="feedback hidden" id="sp-feedback"></div>
+      <button class="btn btn-blue"  id="sp-btn-check" onclick="spCheck()">Check ✓ &nbsp;|&nbsp; בדוק</button>
+      <button class="btn btn-green hidden" id="sp-btn-next" onclick="spNext()">Next → &nbsp;|&nbsp; הבא</button>
+    </div>
+    <div id="sp-score" class="card card-anim hidden"></div>
+
+    <!-- ── SPELLING MODE SELECTOR ── -->
+    <div id="sp-mode" class="card card-anim hidden">
+      <div class="section-header">
+        <h1>✏️ Spelling</h1>
+        <div class="heb">בחרו מצב תרגול</div>
+      </div>
+      <div class="mode-btns">
+        <button class="btn btn-blue" onclick="spInit()">📝 Quiz — Type the word &nbsp;|&nbsp; כתבו את המילה</button>
+        <button class="btn btn-yellow" onclick="scInit()">🔀 Game — Word Scramble &nbsp;|&nbsp; סדרו את האותיות</button>
+      </div>
+    </div>
+
+    <!-- ── WORD SCRAMBLE GAME ── -->
+    <div id="sp-scramble" class="card card-anim hidden">
+      <div class="section-header">
+        <h1>🔀 Word Scramble</h1>
+        <div class="heb">לחצו על האותיות כדי לסדר את המילה</div>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="sc-prog"></div></div>
+      <div class="prog-text" id="sc-prog-text"></div>
+      <p class="q-instruction">Arrange the letters to spell: &nbsp;|&nbsp; <span style="direction:rtl;display:inline-block;">סדרו את האותיות</span></p>
+      <div class="q-word" id="sc-word" style="direction:rtl;"></div>
+      <div class="scramble-slots" id="sc-slots"></div>
+      <div class="sc-tiles" id="sc-tiles"></div>
+      <div class="feedback hidden" id="sc-feedback"></div>
+      <button class="btn btn-gray" id="sc-btn-clear" onclick="scClear()" style="font-size:14px; padding:11px; margin-top:8px;">🔄 Clear &nbsp;|&nbsp; נקו</button>
+      <button class="btn btn-green hidden" id="sc-btn-next" onclick="scNext()">Next → &nbsp;|&nbsp; הבא</button>
+      <button class="btn btn-gray" style="font-size:13px; padding:10px; margin-top:8px;" onclick="showSpMode()">← Back to menu &nbsp;|&nbsp; חזרה לתפריט</button>
+    </div>
+    <div id="sc-score" class="card card-anim hidden"></div>
+  </div>
+
+  <!-- ════ MEANING ════ -->
+  <div id="s-meaning" class="hidden">
+    <div id="mn-quiz" class="card card-anim">
+      <div class="section-header">
+        <h1>📖 Meaning Match</h1>
+        <div class="heb">התאמת משמעות — בחרו את התרגום הנכון</div>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="mn-prog"></div></div>
+      <div class="prog-text" id="mn-prog-text"></div>
+
+      <p class="q-instruction">What does this word mean? &nbsp;|&nbsp; מה פירוש המילה?</p>
+      <div class="q-word" id="mn-word" style="direction:ltr;"></div>
+
+      <div class="opt-grid" id="mn-opts"></div>
+      <div class="feedback hidden" id="mn-feedback"></div>
+      <button class="btn btn-green hidden" id="mn-btn-next" onclick="mnNext()">Next → &nbsp;|&nbsp; הבא</button>
+    </div>
+    <div id="mn-score" class="card card-anim hidden"></div>
+
+    <!-- ── MEANING MODE SELECTOR ── -->
+    <div id="mn-mode" class="card card-anim hidden">
+      <div class="section-header">
+        <h1>📖 Meaning</h1>
+        <div class="heb">בחרו מצב תרגול</div>
+      </div>
+      <div class="mode-btns">
+        <button class="btn btn-blue" onclick="mnInit()">📝 Quiz — Choose the meaning &nbsp;|&nbsp; בחרו את המשמעות</button>
+        <button class="btn btn-yellow" onclick="mpInit()">🔗 Game — Match the Pairs &nbsp;|&nbsp; חברו את הזוגות</button>
+      </div>
+    </div>
+
+    <!-- ── MATCH THE PAIRS GAME ── -->
+    <div id="mn-match" class="card card-anim hidden">
+      <div class="section-header">
+        <h1>🔗 Match the Pairs</h1>
+        <div class="heb">לחצו על מילה ועל המשמעות שלה</div>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="mp-prog"></div></div>
+      <div class="prog-text" id="mp-prog-text"></div>
+      <div class="match-grid" id="mp-grid"></div>
+      <div class="feedback hidden" id="mp-feedback"></div>
+      <button class="btn btn-green hidden" id="mp-btn-next" onclick="mpNextRound()">Next Round → &nbsp;|&nbsp; הסיבוב הבא</button>
+      <button class="btn btn-gray" style="font-size:13px; padding:10px; margin-top:8px;" onclick="showMnMode()">← Back to menu &nbsp;|&nbsp; חזרה לתפריט</button>
+    </div>
+    <div id="mp-score" class="card card-anim hidden"></div>
+  </div>
+
+  <!-- ════ GRAMMAR ════ -->
+  <div id="s-grammar" class="hidden">
+    <div id="gr-quiz" class="card card-anim">
+      <div class="section-header">
+        <h1>📝 Grammar – Past Simple</h1>
+        <div class="heb">זמן עבר — בחרו את הצורה הנכונה</div>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="gr-prog"></div></div>
+      <div class="prog-text" id="gr-prog-text"></div>
+
+      <div class="info-box">
+        <strong>Remember | זכרו:</strong><br>
+        ✅ <strong>Positive:</strong> I <em>went</em> / She <em>ate</em> / They <em>saw</em><br>
+        ❌ <strong>Negative:</strong> I <em>didn't go</em> / She <em>didn't eat</em><br>
+        ❓ <strong>Question:</strong> <em>Did</em> you go? / <em>Did</em> she eat?
+      </div>
+
+      <div class="q-word" id="gr-sentence" style="direction:ltr; font-size:19px; line-height:1.7;"></div>
+      <div class="opt-grid" id="gr-opts"></div>
+      <div class="feedback hidden" id="gr-feedback"></div>
+      <button class="btn btn-green hidden" id="gr-btn-next" onclick="grNext()">Next → &nbsp;|&nbsp; הבא</button>
+    </div>
+    <div id="gr-score" class="card card-anim hidden"></div>
+
+    <!-- ── GRAMMAR MODE SELECTOR ── -->
+    <div id="gr-mode" class="card card-anim hidden">
+      <div class="section-header">
+        <h1>📝 Grammar</h1>
+        <div class="heb">בחרו מצב תרגול</div>
+      </div>
+      <div class="mode-btns">
+        <button class="btn btn-blue" onclick="grInit()">📝 Quiz — Choose the right form &nbsp;|&nbsp; בחרו את הצורה הנכונה</button>
+        <button class="btn btn-yellow" onclick="gsInit()">🔀 Game — Build the Sentence &nbsp;|&nbsp; בנו את המשפט</button>
+      </div>
+    </div>
+
+    <!-- ── SENTENCE BUILDER GAME ── -->
+    <div id="gr-scramble" class="card card-anim hidden">
+      <div class="section-header">
+        <h1>🔀 Sentence Builder</h1>
+        <div class="heb">לחצו על המילים לפי הסדר הנכון</div>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="gs-prog"></div></div>
+      <div class="prog-text" id="gs-prog-text"></div>
+      <div class="info-box" style="font-size:12px; margin-bottom:10px;">
+        <strong>How to play | איך משחקים:</strong> Click the word tiles in the correct order to build the full sentence &nbsp;|&nbsp; לחצו על המילים לפי הסדר
+      </div>
+      <div class="word-slots" id="gs-slots"></div>
+      <div class="word-tiles" id="gs-tiles"></div>
+      <div class="feedback hidden" id="gs-feedback"></div>
+      <button class="btn btn-gray" id="gs-btn-clear" onclick="gsClear()" style="font-size:14px; padding:11px; margin-top:8px;">🔄 Clear &nbsp;|&nbsp; נקו</button>
+      <button class="btn btn-green hidden" id="gs-btn-next" onclick="gsNext()">Next → &nbsp;|&nbsp; הבא</button>
+      <button class="btn btn-gray" style="font-size:13px; padding:10px; margin-top:8px;" onclick="showGrMode()">← Back to menu &nbsp;|&nbsp; חזרה לתפריט</button>
+    </div>
+    <div id="gs-score" class="card card-anim hidden"></div>
+  </div>
+
+  <!-- ════ WRITING ════ -->
+  <div id="s-writing" class="hidden">
+    <div class="card card-anim" id="wr-practice">
+      <div class="section-header">
+        <h1>✍️ Writing Practice</h1>
+        <div class="heb">תרגול כתיבה — כתבו בזמן עבר</div>
+      </div>
+
+      <div class="info-box">
+        <strong>What you need to do | מה צריך לעשות:</strong><br>
+        📏 Write <strong>40–60 words</strong> &nbsp;|&nbsp; כתבו 40–60 מילים<br>
+        ❌ Include <strong>at least 2 negative sentences</strong> &nbsp;|&nbsp; לפחות 2 משפטים שליליים<br>
+        🔗 Use <strong>linking words</strong> (first, then, next, finally…) &nbsp;|&nbsp; השתמשו במילות קישור<br>
+        ⏪ Write everything in <strong>past tense</strong> &nbsp;|&nbsp; כל המשפטים בזמן עבר
+      </div>
+
+      <div class="w-prompt" id="w-prompt"></div>
+      <button class="topic-btn" onclick="changePrompt()">🔄 Change topic &nbsp;|&nbsp; החלף נושא</button>
+
+      <textarea class="w-textarea" id="w-text"
+        placeholder="Start writing here... | כתבו כאן..."
+        oninput="updateCount()"></textarea>
+      <div class="word-count-wrap">
+        <span class="word-count low" id="w-count">0 words | מילים</span>
+      </div>
+
+      <button class="btn btn-blue" onclick="checkWriting()" style="margin-top:14px;">
+        🔍 Check Text | בדיקת טקסט
+      </button>
+      <div id="w-check-result" class="check-result-panel hidden"></div>
+
+      <div class="bank-section">
+        <h3>📚 Word Bank &nbsp;<small style="color:var(--muted);font-weight:400;font-size:12px;">(click to add | לחצו להוסיף)</small></h3>
+        <div class="bank-label">🔗 Linking words | מילות קישור</div>
+        <div class="chips" id="chips-link"></div>
+        <div class="bank-label">❌ Negatives | שלילה</div>
+        <div class="chips" id="chips-neg"></div>
+        <div class="bank-label">📖 Useful words | מילים שימושיות</div>
+        <div class="chips" id="chips-vocab"></div>
+      </div>
+
+      <div class="checklist">
+        <h3>✅ Checklist &nbsp;|&nbsp; רשימת בדיקה</h3>
+        <div class="check-row"><input type="checkbox" id="ck1"><label for="ck1">I wrote 50–60 words <span class="heb" style="display:inline;">| כתבתי 50–60 מילים</span></label></div>
+        <div class="check-row"><input type="checkbox" id="ck2"><label for="ck2">I used Past Simple tense <span class="heb" style="display:inline;">| כתבתי בזמן עבר</span></label></div>
+        <div class="check-row"><input type="checkbox" id="ck3"><label for="ck3">I have at least 2 negative sentences (didn't / wasn't / weren't) <span class="heb" style="display:inline;">| לפחות 2 משפטים שליליים</span></label></div>
+        <div class="check-row"><input type="checkbox" id="ck4"><label for="ck4">I used linking words (first, then, next, finally…) <span class="heb" style="display:inline;">| השתמשתי במילות קישור</span></label></div>
+        <div class="check-row"><input type="checkbox" id="ck5"><label for="ck5">I checked my spelling <span class="heb" style="display:inline;">| בדקתי את האיות שלי</span></label></div>
+      </div>
+    </div>
+
+    <!-- ── WRITING MODE SELECTOR ── -->
+    <div id="wr-mode" class="card card-anim hidden">
+      <div class="section-header">
+        <h1>✍️ Writing</h1>
+        <div class="heb">בחרו מצב תרגול</div>
+      </div>
+      <div class="mode-btns">
+        <button class="btn btn-blue" onclick="wInit()">✍️ Practice — Free Writing &nbsp;|&nbsp; תרגול כתיבה חופשית</button>
+        <button class="btn btn-yellow" onclick="wcInit()">🔍 Game — Sentence Correction &nbsp;|&nbsp; תקנו את המשפטים</button>
+      </div>
+    </div>
+
+    <!-- ── CORRECTION GAME ── -->
+    <div id="wr-correction" class="card card-anim hidden">
+      <div class="section-header">
+        <h1>🔍 Sentence Correction</h1>
+        <div class="heb">מצאו ותקנו את השגיאה במשפט</div>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="wc-prog"></div></div>
+      <div class="prog-text" id="wc-prog-text"></div>
+
+      <p class="q-instruction">Find the highlighted mistake and type the correct word &nbsp;|&nbsp; <span style="direction:rtl;display:inline-block;">תקנו את המילה המסומנת</span></p>
+      <div class="q-word" id="wc-sentence" style="font-size:18px; line-height:1.8; text-align:left; direction:ltr;"></div>
+
+      <p class="q-instruction" style="margin-top:16px;">Type the correct word: &nbsp;|&nbsp; <span style="direction:rtl;display:inline-block;">כתבו את המילה הנכונה</span></p>
+      <input class="ans-input" id="wc-input" type="text"
+        placeholder="Correct word here..."
+        onkeydown="if(event.key==='Enter') wcCheck()">
+
+      <button class="btn btn-yellow" id="wc-btn-hint" onclick="wcHint()" style="font-size:14px; padding:11px; margin-top:8px;">
+        💡 Hint — show the rule &nbsp;|&nbsp; רמז — הראו את הכלל
+      </button>
+      <div class="feedback hidden" id="wc-feedback"></div>
+      <button class="btn btn-blue" id="wc-btn-check" onclick="wcCheck()">Check ✓ &nbsp;|&nbsp; בדוק</button>
+      <button class="btn btn-green hidden" id="wc-btn-next" onclick="wcNext()">Next → &nbsp;|&nbsp; הבא</button>
+      <button class="btn btn-gray" style="font-size:13px; padding:10px; margin-top:8px;" onclick="showWrMode()">← Back to menu &nbsp;|&nbsp; חזרה לתפריט</button>
+    </div>
+    <div id="wc-score" class="card card-anim hidden"></div>
+  </div>
+
+  <!-- ════ TEST SIMULATION ════ -->
+  <div id="s-test" class="hidden">
+
+    <!-- Intro -->
+    <div id="t-intro" class="card card-anim">
+      <div style="text-align:center;">
+        <div style="font-size:56px; margin-bottom:14px; filter:drop-shadow(0 4px 8px rgba(245,158,11,0.4));">📋</div>
+        <h1 style="font-size:26px; font-weight:800; background:linear-gradient(135deg,#F59E0B,#FBBF24); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">Test Simulation</h1>
+        <div class="heb" style="font-size:17px; margin-top:6px;">סימולציית מבחן</div>
+      </div>
+      <div class="score-breakdown" style="margin-top:20px;">
+        <div class="breakdown-row"><span>✏️ Section 1 — Spelling | איות</span><span class="breakdown-score">10</span></div>
+        <div class="breakdown-row"><span>📖 Section 2 — Meaning | משמעות</span><span class="breakdown-score">10</span></div>
+        <div class="breakdown-row"><span>📝 Section 3 — Grammar | דקדוק</span><span class="breakdown-score">14</span></div>
+        <div class="breakdown-row" style="border-top:2px solid #eaeaf8; margin-top:4px;">
+          <span style="font-weight:800;">Total | סה״כ</span>
+          <span class="breakdown-score">34</span>
+        </div>
+      </div>
+      <div class="info-box" style="font-size:13px;">
+        📌 No feedback during the test &nbsp;|&nbsp; <span style="direction:rtl;display:inline-block;">אין משוב במהלך המבחן</span><br>
+        ✅ Full results appear at the end &nbsp;|&nbsp; <span style="direction:rtl;display:inline-block;">תוצאות מלאות מופיעות בסוף</span>
+      </div>
+      <button class="btn btn-yellow" onclick="tStart()" style="margin-top:8px; font-size:17px; padding:18px;">
+        📋 Begin Test &nbsp;|&nbsp; התחילו מבחן
+      </button>
+    </div>
+
+    <!-- Quiz -->
+    <div id="t-quiz" class="card card-anim hidden">
+      <div class="prog-bar"><div class="prog-fill" id="t-prog"></div></div>
+      <div class="prog-text" id="t-prog-text"></div>
+      <div style="text-align:center;"><span class="t-badge" id="t-badge"></span></div>
+      <p class="q-instruction" id="t-instruction"></p>
+      <div class="q-word" id="t-word"></div>
+
+      <!-- Spelling input -->
+      <input class="ans-input hidden" id="t-input" type="text"
+        placeholder="Type the English word..."
+        onkeydown="if(event.key==='Enter') tNext()">
+
+      <!-- Multiple choice options -->
+      <div class="opt-grid hidden" id="t-opts"></div>
+
+      <button class="btn btn-blue" id="t-btn-next" onclick="tNext()" style="margin-top:16px;">
+        Next → &nbsp;|&nbsp; הבא
+      </button>
+    </div>
+
+    <!-- Score -->
+    <div id="t-score" class="card card-anim hidden"></div>
+
+  </div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+//  DATA
+// ═══════════════════════════════════════════
+
+const SPELLING = [
+  { heb: 'פעולה',         eng: 'action' },
+  { heb: 'ברגע',          eng: 'now' },
+  { heb: 'חפץ',           eng: 'object' },
+  { heb: 'זה תלוי',       eng: 'it depends' },
+  { heb: 'בית כנסת',      eng: 'synagogue' },
+  { heb: 'שלווה',         eng: 'peace' },
+  { heb: 'שימושי',        eng: 'useful' },
+  { heb: 'להיות מסוגל ל', eng: 'be able to' },
+  { heb: 'רגיל',          eng: 'ordinary' },
+  { heb: 'למרות ש',       eng: 'although' },
+  { heb: 'ישנה בעיה',     eng: 'have a problem' },
+  { heb: 'להישאר',        eng: 'remain' },
+  { heb: 'להתעקש',        eng: 'insist' },
+  { heb: 'להציע',         eng: 'suggest' },
+  { heb: 'להיעלם',        eng: 'disappear' },
+  { heb: 'לחקור',         eng: 'explore' },
+  { heb: 'שליטה',         eng: 'control' },
+  { heb: 'בלתי אפשרי',    eng: 'impossible' },
+  { heb: 'לחזור על',      eng: 'repeat' },
+  { heb: 'נפלא',          eng: 'wonderful' },
+];
+
+const MEANING = [
+  { eng: 'solve',                  heb: 'לפתור' },
+  { eng: 'vacation',               heb: 'חופשה' },
+  { eng: 'adventure',              heb: 'הרפתקה' },
+  { eng: 'as quickly as possible', heb: 'כמה שיותר מהר' },
+  { eng: 'advantage',              heb: 'יתרון' },
+  { eng: 'definitely',             heb: 'בהחלט' },
+  { eng: 'passenger',              heb: 'נוסע' },
+  { eng: 'anywhere',               heb: 'בכל מקום' },
+  { eng: 'however',                heb: 'עם זאת' },
+  { eng: 'immediately',            heb: 'מיד' },
+  { eng: 'ordinary',               heb: 'רגיל' },
+  { eng: 'especially',             heb: 'במיוחד' },
+  { eng: 'suddenly',               heb: 'פתאום' },
+  { eng: 'effect',                 heb: 'השפעה' },
+  { eng: 'throughout',             heb: 'במהלך' },
+  { eng: 'experience',             heb: 'חוויה' },
+  { eng: 'population',             heb: 'אוכלוסייה' },
+  { eng: 'share',                  heb: 'לחלוק' },
+  { eng: 'mystery',                heb: 'תעלומה' },
+  { eng: 'opinion',                heb: 'דעה' },
+];
+
+const GRAMMAR = [
+  { sentence: 'Yesterday, I ___ to the park.',         answer: 'went',   options: ['went','go','goed','goes'],          note: 'go → went ✅' },
+  { sentence: 'She ___ a pizza for dinner last night.', answer: 'ate',    options: ['ate','eat','eated','eats'],         note: 'eat → ate ✅' },
+  { sentence: 'We ___ a great movie on Friday.',        answer: 'saw',    options: ['saw','see','seed','sees'],          note: 'see → saw ✅' },
+  { sentence: 'He ___ juice for breakfast.',            answer: 'drank',  options: ['drank','drink','drinked','drinks'], note: 'drink → drank ✅' },
+  { sentence: 'I ___ for nine hours last night.',       answer: 'slept',  options: ['slept','sleep','sleeped','sleeps'], note: 'sleep → slept ✅' },
+  { sentence: 'They ___ their friends at the mall.',    answer: 'met',    options: ['met','meet','meeted','meets'],      note: 'meet → met ✅' },
+  { sentence: 'The lesson ___ very interesting.',       answer: 'was',    options: ['was','were','is','be'],             note: 'is/am → was (singular) ✅' },
+  { sentence: 'The students ___ happy at the party.',   answer: 'were',   options: ['were','was','are','be'],            note: 'are → were (plural) ✅' },
+  { sentence: 'I ___ go to the store yesterday.',       answer: "didn't", options: ["didn't","don't","not","wasn't"],    note: "Negative: didn't + base verb ❌" },
+  { sentence: 'She ___ eat breakfast this morning.',    answer: "didn't", options: ["didn't","don't","doesn't","wasn't"],note: "Negative: didn't + base verb ❌" },
+  { sentence: 'He ___ see the film last week.',         answer: "didn't", options: ["didn't","don't","not","wasn't"],    note: "Negative: didn't + base verb ❌" },
+  { sentence: '___ you go to the party last night?',   answer: 'Did',    options: ['Did','Do','Does','Was'],            note: 'Question: Did + subject + base verb ❓' },
+  { sentence: '___ she meet her friends yesterday?',    answer: 'Did',    options: ['Did','Do','Does','Were'],           note: 'Question: Did + subject + base verb ❓' },
+  { sentence: '___ they eat at the restaurant?',        answer: 'Did',    options: ['Did','Do','Have','Were'],           note: 'Question: Did + subject + base verb ❓' },
+];
+
+const PROMPTS = [
+  { eng: 'Write about your last vacation.',                       heb: 'כתבו על החופשה האחרונה שלכם.' },
+  { eng: 'Write about a wonderful adventure you had.',            heb: 'כתבו על הרפתקה נפלאה שהייתה לכם.' },
+  { eng: 'Write about something interesting that happened last week.', heb: 'כתבו על משהו מעניין שקרה שבוע שעבר.' },
+  { eng: 'Write about a special experience with your family.',    heb: 'כתבו על חוויה מיוחדת עם המשפחה שלכם.' },
+  { eng: 'Write about a mystery you tried to solve.',             heb: 'כתבו על תעלומה שניסיתם לפתור.' },
+];
+
+const CORRECTIONS = [
+  { sentence: 'Yesterday, I go to the park with my friends.',   wrongWord: 'go',      correct: 'went',    note: 'go → went (past tense)' },
+  { sentence: 'She eat a pizza for dinner last night.',          wrongWord: 'eat',     correct: 'ate',     note: 'eat → ate (past tense)' },
+  { sentence: 'We see a great movie on Friday.',                 wrongWord: 'see',     correct: 'saw',     note: 'see → saw (past tense)' },
+  { sentence: 'He drink juice for breakfast.',                   wrongWord: 'drink',   correct: 'drank',   note: 'drink → drank (past tense)' },
+  { sentence: 'They meet their friends at the mall.',            wrongWord: 'meet',    correct: 'met',     note: 'meet → met (past tense)' },
+  { sentence: 'The lesson is very interesting.',                 wrongWord: 'is',      correct: 'was',     note: 'is → was (singular, past tense)' },
+  { sentence: 'The students are happy at the party.',            wrongWord: 'are',     correct: 'were',    note: 'are → were (plural, past tense)' },
+  { sentence: "I don't go to the store yesterday.",              wrongWord: "don't",   correct: "didn't",  note: "Negative past: didn't + base verb" },
+  { sentence: "She doesn't eat breakfast this morning.",         wrongWord: "doesn't", correct: "didn't",  note: "Negative past: didn't + base verb" },
+  { sentence: 'i slept for nine hours last night.',              wrongWord: 'i',       correct: 'I',       note: '"I" is always a capital letter' },
+  { sentence: 'did you go to the party last night?',             wrongWord: 'did',     correct: 'Did',     note: 'Sentences start with a capital letter' },
+  { sentence: 'She have a wonderful adventure last week.',       wrongWord: 'have',    correct: 'had',     note: 'have → had (past tense)' },
+];
+
+const LINKING  = ['Yesterday,','Last week,','First,','Then,','Next,','After that,','Finally,','Also,'];
+const NEGATIVES = ["didn't go","didn't eat","didn't see","didn't want","didn't like","wasn't","weren't","didn't do"];
+const VOCAB     = ['adventure','vacation','wonderful','suddenly','immediately','especially','although','however','experience','decided','enjoyed','visited','amazing','exciting','ordinary'];
+
+// ═══════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════
+
+const shuffle = arr => [...arr].sort(() => Math.random() - 0.5);
+const get     = id  => document.getElementById(id);
+const show    = id  => get(id).classList.remove('hidden');
+const hide    = id  => get(id).classList.add('hidden');
+const setText = (id,t) => get(id).textContent = t;
+const setHTML = (id,h) => get(id).innerHTML   = h;
+
+function reAnimate(id) {
+  const el = get(id);
+  el.classList.remove('card-anim');
+  void el.offsetWidth; // reflow
+  el.classList.add('card-anim');
+}
+
+function animWord(id) {
+  const el = get(id);
+  el.classList.remove('anim');
+  void el.offsetWidth;
+  el.classList.add('anim');
+}
+
+function addRipple(btn, e) {
+  const r = document.createElement('span');
+  r.className = 'ripple';
+  const rect = btn.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height);
+  r.style.width = r.style.height = size + 'px';
+  r.style.left = (e.clientX - rect.left - size/2) + 'px';
+  r.style.top  = (e.clientY - rect.top  - size/2) + 'px';
+  btn.appendChild(r);
+  setTimeout(() => r.remove(), 600);
+}
+document.querySelectorAll('.btn').forEach(b => b.addEventListener('click', e => addRipple(b, e)));
+
+function launchConfetti() {
+  const wrap = document.createElement('div');
+  wrap.className = 'confetti-container';
+  document.body.appendChild(wrap);
+  const colors = ['#6C63FF','#FF6584','#00C896','#FFA502','#4facfe','#f093fb','#ffde57'];
+  for (let i = 0; i < 70; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti-piece';
+    p.style.cssText = `
+      left: ${Math.random()*100}%;
+      width: ${6 + Math.random()*10}px;
+      height: ${6 + Math.random()*10}px;
+      background: ${colors[Math.floor(Math.random()*colors.length)]};
+      border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+      animation-delay: ${Math.random()*0.9}s;
+      animation-duration: ${1.4 + Math.random()*0.9}s;
+    `;
+    wrap.appendChild(p);
+  }
+  setTimeout(() => wrap.remove(), 3000);
+}
+
+function spawnEmoji(emoji, x, y) {
+  const el = document.createElement('div');
+  el.className = 'emoji-burst';
+  el.textContent = emoji;
+  el.style.left = x + 'px';
+  el.style.top  = y + 'px';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 900);
+}
+
+function scoreMsg(pct) {
+  if (pct === 100) return { en: '🏆 Perfect!',        he: 'מושלם! כל הכבוד!' };
+  if (pct >= 80)   return { en: '🎉 Excellent!',       he: 'מצוין! כל הכבוד!' };
+  if (pct >= 60)   return { en: '👍 Good effort!',     he: 'עבודה טובה!' };
+  return                  { en: '💪 Keep practicing!', he: 'המשיכו להתאמן!' };
+}
+
+function buildScoreHTML(score, total, wrong, wrongRenderer, sectionId) {
+  const pct = Math.round(score / total * 100);
+  const msg = scoreMsg(pct);
+  let rev = '';
+  if (wrong.length) {
+    rev = '<div class="review-list"><h3 style="margin-bottom:10px; font-size:15px;">Review these | חזרו על:</h3>';
+    wrong.forEach(w => rev += wrongRenderer(w));
+    rev += '</div>';
+  }
+  return `
+    <div class="score-circle">
+      <span>${score}/${total}</span>
+      <span class="lbl">${pct}%</span>
+    </div>
+    <div class="score-msg">${msg.en}</div>
+    <div class="heb" style="margin-top:4px; margin-bottom:16px;">${msg.he}</div>
+    ${rev}
+    <button class="btn btn-blue"  style="margin-top:22px;" onclick="goSection('${sectionId}')">🔄 Try Again | נסו שוב</button>
+    <button class="btn btn-gray"  style="margin-top:10px;" onclick="goHome()">🏠 Back to Home | חזרה</button>
+  `;
+}
+
+// ═══════════════════════════════════════════
+//  NAV
+// ═══════════════════════════════════════════
+
+const SECTIONS = ['home','spelling','meaning','grammar','writing','test'];
+
+function goHome() {
+  SECTIONS.forEach(s => hide('s-' + s));
+  show('s-home');
+  reAnimate('s-home');
+}
+
+function goSection(name) {
+  SECTIONS.forEach(s => hide('s-' + s));
+  show('s-' + name);
+  if (name === 'spelling') showSpMode();
+  if (name === 'meaning')  showMnMode();
+  if (name === 'grammar')  showGrMode();
+  if (name === 'writing')  showWrMode();
+  if (name === 'test')     tIntro();
+}
+
+// ═══════════════════════════════════════════
+//  SPELLING
+// ═══════════════════════════════════════════
+
+let spOrder=[], spIdx=0, spScore=0, spWrong=[], spDone=false, spHintCount=0;
+
+function spInit() {
+  hide('sp-mode'); hide('sp-scramble'); hide('sc-score');
+  spOrder = shuffle(SPELLING); spIdx = 0; spScore = 0; spWrong = [];
+  show('sp-quiz'); hide('sp-score');
+  reAnimate('sp-quiz');
+  spShow();
+}
+
+function spShow() {
+  const total = spOrder.length;
+  if (spIdx >= total) { spShowScore(); return; }
+  const w = spOrder[spIdx];
+
+  setText('sp-word', w.heb);
+  animWord('sp-word');
+  get('sp-input').value = '';
+  get('sp-input').disabled = false;
+  hide('sp-feedback');
+  hide('sp-hint-display');
+
+  const hBtn = get('sp-btn-hint');
+  hBtn.disabled = false;
+  hBtn.textContent = '💡 Hint – show a letter | רמז – גלו אות';
+
+  show('sp-btn-check'); hide('sp-btn-next');
+  get('sp-prog').style.width = (spIdx / total * 100) + '%';
+  setText('sp-prog-text', `Question ${spIdx + 1} / ${total}`);
+  spDone = false; spHintCount = 0;
+  setTimeout(() => get('sp-input').focus(), 80);
+}
+
+function spCheck() {
+  if (spDone) return;
+  const val = get('sp-input').value.trim().toLowerCase();
+  if (!val) return;
+  spDone = true;
+  get('sp-input').disabled = true;
+  hide('sp-btn-check'); show('sp-btn-next');
+
+  const correct = spOrder[spIdx].eng.toLowerCase();
+  const fb = get('sp-feedback');
+  show('sp-feedback');
+
+  if (val === correct) {
+    spScore++;
+    fb.className = 'feedback correct';
+    fb.textContent = '✅ Correct! | נכון!';
+    const rect = get('sp-feedback').getBoundingClientRect();
+    spawnEmoji('⭐', rect.left + rect.width/2, rect.top);
+  } else {
+    spWrong.push({ heb: spOrder[spIdx].heb, eng: spOrder[spIdx].eng, given: val });
+    fb.className = 'feedback wrong';
+    fb.textContent = `❌ Correct answer: "${spOrder[spIdx].eng}" | התשובה הנכונה היא`;
+  }
+}
+
+function spHint() {
+  if (spDone) return;
+  const eng = spOrder[spIdx].eng;
+  spHintCount++;
+
+  let revealed = 0, hintStr = '';
+  for (let i = 0; i < eng.length; i++) {
+    if (eng[i] === ' ') {
+      hintStr += '  ';
+    } else if (revealed < spHintCount) {
+      hintStr += eng[i];
+      revealed++;
+    } else {
+      hintStr += '_';
+    }
+  }
+
+  const hintDiv = get('sp-hint-display');
+  hintDiv.textContent = hintStr;
+  show('sp-hint-display');
+  // Re-trigger glow animation
+  hintDiv.style.animation = 'none';
+  void hintDiv.offsetWidth;
+  hintDiv.style.animation = '';
+
+  const totalLetters = eng.replace(/ /g, '').length;
+  const hBtn = get('sp-btn-hint');
+  if (spHintCount >= totalLetters) {
+    hBtn.disabled = true;
+    hBtn.textContent = 'No more hints | אין עוד רמזים';
+  } else {
+    const left = totalLetters - spHintCount;
+    hBtn.textContent = `💡 Show another letter (${left} left) | עוד אות`;
+  }
+}
+
+function spNext() { spIdx++; spShow(); }
+
+function spShowScore() {
+  hide('sp-quiz'); show('sp-score');
+  reAnimate('sp-score');
+  const pct = Math.round(spScore / spOrder.length * 100);
+  setHTML('sp-score', buildScoreHTML(
+    spScore, spOrder.length, spWrong,
+    w => `<div class="review-item" style="direction:rtl;">${w.heb} → <span class="correct-answer">${w.eng}</span> <span style="color:#bbb;">(כתבת: ${w.given})</span></div>`,
+    'spelling'
+  ));
+  if (pct === 100) launchConfetti();
+}
+
+// ═══════════════════════════════════════════
+//  SCRAMBLE GAME
+// ═══════════════════════════════════════════
+
+let scOrder=[], scIdx=0, scScore=0, scWrong=[];
+let scSlots=[], scTiles=[];
+
+function showSpMode() {
+  hide('sp-quiz'); hide('sp-score'); hide('sp-scramble'); hide('sc-score');
+  show('sp-mode');
+  reAnimate('sp-mode');
+}
+
+function scInit() {
+  hide('sp-mode');
+  scOrder = shuffle(SPELLING); scIdx = 0; scScore = 0; scWrong = [];
+  show('sp-scramble'); hide('sc-score');
+  reAnimate('sp-scramble');
+  scShow();
+}
+
+function scShow() {
+  const total = scOrder.length;
+  if (scIdx >= total) { scShowScore(); return; }
+  const w = scOrder[scIdx];
+
+  setText('sc-word', w.heb);
+  animWord('sc-word');
+  hide('sc-feedback'); hide('sc-btn-next'); show('sc-btn-clear');
+  get('sc-prog').style.width = (scIdx / total * 100) + '%';
+  setText('sc-prog-text', `Question ${scIdx + 1} / ${total}`);
+
+  // Build answer slots (one per character; spaces become fixed gaps)
+  const eng = w.eng;
+  const slotsDiv = get('sc-slots');
+  slotsDiv.innerHTML = '';
+  scSlots = [];
+  for (let i = 0; i < eng.length; i++) {
+    const el = document.createElement('div');
+    if (eng[i] === ' ') {
+      el.className = 'sc-slot space-slot';
+      scSlots.push({ isSpace: true, el });
+    } else {
+      el.className = 'sc-slot';
+      const idx = scSlots.length;
+      el.onclick = () => scRemoveTile(idx);
+      scSlots.push({ isSpace: false, el, filled: false, tileIdx: null, letter: null });
+    }
+    slotsDiv.appendChild(el);
+  }
+
+  // Build scrambled letter tiles
+  const letters = eng.replace(/ /g, '').split('');
+  let scrambled = shuffle(letters);
+  // If shuffle left them in the same order, try once more
+  if (scrambled.join('') === letters.join('') && letters.length > 1) scrambled = shuffle(letters);
+
+  const tilesDiv = get('sc-tiles');
+  tilesDiv.innerHTML = '';
+  scTiles = [];
+  scrambled.forEach((letter, idx) => {
+    const el = document.createElement('div');
+    el.className = 'sc-tile';
+    el.textContent = letter;
+    el.onclick = () => scPlaceTile(idx);
+    scTiles.push({ letter, el, used: false });
+    tilesDiv.appendChild(el);
+  });
+}
+
+function scPlaceTile(tileIdx) {
+  if (scTiles[tileIdx].used) return;
+  const nextEmpty = scSlots.find(s => !s.isSpace && !s.filled);
+  if (!nextEmpty) return;
+
+  nextEmpty.filled = true;
+  nextEmpty.letter = scTiles[tileIdx].letter;
+  nextEmpty.tileIdx = tileIdx;
+  nextEmpty.el.textContent = scTiles[tileIdx].letter;
+  nextEmpty.el.classList.add('filled');
+  scTiles[tileIdx].used = true;
+  scTiles[tileIdx].el.classList.add('used');
+
+  // Auto-check when every slot is filled
+  if (scSlots.every(s => s.isSpace || s.filled)) scAutoCheck();
+}
+
+function scRemoveTile(slotIdx) {
+  const slot = scSlots[slotIdx];
+  if (!slot || slot.isSpace || !slot.filled) return;
+  const tileIdx = slot.tileIdx;
+  scTiles[tileIdx].used = false;
+  scTiles[tileIdx].el.classList.remove('used');
+  slot.filled = false; slot.letter = null; slot.tileIdx = null;
+  slot.el.textContent = ''; slot.el.classList.remove('filled');
+}
+
+function scClear() {
+  scSlots.forEach((s, i) => { if (!s.isSpace && s.filled) scRemoveTile(i); });
+}
+
+function scAutoCheck() {
+  const spelled = scSlots.map(s => s.isSpace ? ' ' : (s.letter || '')).join('');
+  const correct = scOrder[scIdx].eng;
+  const fb = get('sc-feedback');
+  show('sc-feedback'); hide('sc-btn-clear');
+
+  // Lock all interaction
+  scTiles.forEach(t => { t.el.style.pointerEvents = 'none'; });
+  scSlots.forEach(s => { if (!s.isSpace) { s.el.onclick = null; s.el.style.cursor = 'default'; } });
+
+  if (spelled.toLowerCase() === correct.toLowerCase()) {
+    scScore++;
+    fb.className = 'feedback correct';
+    fb.textContent = '✅ Correct! | נכון!';
+    scSlots.forEach(s => { if (!s.isSpace) s.el.style.color = 'var(--success)'; });
+    const rect = fb.getBoundingClientRect();
+    spawnEmoji('⭐', rect.left + rect.width / 2, rect.top);
+  } else {
+    scWrong.push({ heb: scOrder[scIdx].heb, eng: correct });
+    fb.className = 'feedback wrong';
+    fb.textContent = `❌ Correct: "${correct}" | התשובה הנכונה`;
+    // Colour each slot: green if right letter, red if wrong
+    for (let i = 0; i < scSlots.length; i++) {
+      if (scSlots[i].isSpace) continue;
+      const got = (scSlots[i].letter || '').toLowerCase();
+      const expected = correct[i].toLowerCase();
+      scSlots[i].el.style.color = got === expected ? 'var(--success)' : 'var(--danger)';
+    }
+  }
+  show('sc-btn-next');
+}
+
+function scNext() { scIdx++; scShow(); }
+
+function scShowScore() {
+  hide('sp-scramble'); show('sc-score');
+  reAnimate('sc-score');
+  const pct = Math.round(scScore / scOrder.length * 100);
+  setHTML('sc-score', buildScoreHTML(
+    scScore, scOrder.length, scWrong,
+    w => `<div class="review-item" style="direction:rtl;">${w.heb} → <span class="correct-answer">${w.eng}</span></div>`,
+    'spelling'
+  ));
+  if (pct === 100) launchConfetti();
+}
+
+// ═══════════════════════════════════════════
+//  MEANING
+// ═══════════════════════════════════════════
+
+let mnOrder=[], mnIdx=0, mnScore=0, mnWrong=[], mnDone=false;
+
+function mnInit() {
+  hide('mn-mode'); hide('mn-match'); hide('mp-score');
+  mnOrder = shuffle(MEANING); mnIdx = 0; mnScore = 0; mnWrong = [];
+  show('mn-quiz'); hide('mn-score');
+  reAnimate('mn-quiz');
+  mnShow();
+}
+
+function mnShow() {
+  const total = mnOrder.length;
+  if (mnIdx >= total) { mnShowScore(); return; }
+  const w = mnOrder[mnIdx];
+
+  setText('mn-word', w.eng);
+  animWord('mn-word');
+  hide('mn-feedback'); hide('mn-btn-next');
+  get('mn-prog').style.width = (mnIdx / total * 100) + '%';
+  setText('mn-prog-text', `Question ${mnIdx + 1} / ${total}`);
+  mnDone = false;
+
+  const correct = w.heb;
+  const pool = shuffle(mnOrder.filter((_,i) => i !== mnIdx)).map(x => x.heb);
+  const opts = shuffle([correct, ...pool.slice(0,3)]);
+  const grid = get('mn-opts');
+  grid.innerHTML = '';
+  opts.forEach(opt => {
+    const b = document.createElement('button');
+    b.className = 'opt-btn';
+    b.style.direction = 'rtl';
+    b.textContent = opt;
+    b.onclick = e => { addRipple(b,e); mnCheck(b, opt, correct); };
+    grid.appendChild(b);
+  });
+}
+
+function mnCheck(btn, selected, correct) {
+  if (mnDone) return;
+  mnDone = true;
+  document.querySelectorAll('#mn-opts .opt-btn').forEach(b => b.disabled = true);
+  show('mn-feedback'); show('mn-btn-next');
+  const fb = get('mn-feedback');
+
+  if (selected === correct) {
+    mnScore++;
+    btn.classList.add('correct');
+    fb.className = 'feedback correct';
+    fb.textContent = '✅ Correct! | נכון!';
+    const rect = btn.getBoundingClientRect();
+    spawnEmoji('🌟', rect.left + rect.width/2, rect.top);
+  } else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('#mn-opts .opt-btn').forEach(b => { if (b.textContent === correct) b.classList.add('correct'); });
+    mnWrong.push({ eng: mnOrder[mnIdx].eng, heb: correct });
+    fb.className = 'feedback wrong';
+    fb.textContent = `❌ Correct answer: "${correct}" | התשובה הנכונה היא`;
+  }
+}
+
+function mnNext() { mnIdx++; mnShow(); }
+
+function mnShowScore() {
+  hide('mn-quiz'); show('mn-score');
+  reAnimate('mn-score');
+  const pct = Math.round(mnScore / mnOrder.length * 100);
+  setHTML('mn-score', buildScoreHTML(
+    mnScore, mnOrder.length, mnWrong,
+    w => `<div class="review-item">${w.eng} → <span class="correct-answer">${w.heb}</span></div>`,
+    'meaning'
+  ));
+  if (pct === 100) launchConfetti();
+}
+
+// ═══════════════════════════════════════════
+//  MATCH THE PAIRS GAME
+// ═══════════════════════════════════════════
+
+const MP_ROUND_SIZE = 5;
+let mpOrder=[], mpRoundIdx=0, mpTotalMatched=0, mpMatchedCount=0, mpWrongSet=new Set();
+let mpSelected=null; // { side, pairIdx, el }
+
+function showMnMode() {
+  hide('mn-quiz'); hide('mn-score'); hide('mn-match'); hide('mp-score');
+  show('mn-mode');
+  reAnimate('mn-mode');
+}
+
+function mpInit() {
+  hide('mn-mode');
+  mpOrder = shuffle(MEANING);
+  mpRoundIdx = 0; mpTotalMatched = 0; mpWrongSet = new Set(); mpSelected = null;
+  show('mn-match'); hide('mp-score');
+  reAnimate('mn-match');
+  mpShowRound();
+}
+
+function mpShowRound() {
+  const start = mpRoundIdx * MP_ROUND_SIZE;
+  const pairs = mpOrder.slice(start, start + MP_ROUND_SIZE);
+  mpMatchedCount = 0; mpSelected = null;
+
+  hide('mp-feedback'); hide('mp-btn-next');
+  get('mp-prog').style.width = (mpTotalMatched / mpOrder.length * 100) + '%';
+  setText('mp-prog-text', `${mpTotalMatched} / ${mpOrder.length} matched &nbsp;|&nbsp; זוגות`);
+
+  // Two independently shuffled columns
+  const leftItems  = shuffle(pairs.map((p, i) => ({ text: p.eng, pairIdx: start + i, side: 'eng', dir: 'ltr' })));
+  const rightItems = shuffle(pairs.map((p, i) => ({ text: p.heb, pairIdx: start + i, side: 'heb', dir: 'rtl' })));
+
+  const grid = get('mp-grid');
+  grid.innerHTML = '';
+  for (let i = 0; i < pairs.length; i++) {
+    [leftItems[i], rightItems[i]].forEach(item => {
+      const el = document.createElement('div');
+      el.className = 'match-item';
+      el.style.direction = item.dir;
+      el.textContent = item.text;
+      el.onclick = () => mpSelect(item.side, item.pairIdx, el);
+      grid.appendChild(el);
+    });
+  }
+}
+
+function mpSelect(side, pairIdx, el) {
+  if (el.classList.contains('matched') || el.classList.contains('wrong')) return;
+
+  // Tap same item again → deselect
+  if (mpSelected && mpSelected.el === el) {
+    el.classList.remove('selected');
+    mpSelected = null;
+    return;
+  }
+
+  // Tap same side → switch selection
+  if (mpSelected && mpSelected.side === side) {
+    mpSelected.el.classList.remove('selected');
+    mpSelected = { side, pairIdx, el };
+    el.classList.add('selected');
+    return;
+  }
+
+  // First selection
+  if (!mpSelected) {
+    mpSelected = { side, pairIdx, el };
+    el.classList.add('selected');
+    return;
+  }
+
+  // Second selection on opposite side — check match
+  const isMatch = mpSelected.pairIdx === pairIdx;
+
+  if (isMatch) {
+    mpSelected.el.classList.remove('selected');
+    mpSelected.el.classList.add('matched');
+    el.classList.add('matched');
+    mpMatchedCount++;
+    mpTotalMatched++;
+    get('mp-prog').style.width = (mpTotalMatched / mpOrder.length * 100) + '%';
+    setText('mp-prog-text', `${mpTotalMatched} / ${mpOrder.length} matched &nbsp;|&nbsp; זוגות`);
+    const rect = el.getBoundingClientRect();
+    spawnEmoji('✨', rect.left + rect.width / 2, rect.top);
+    mpSelected = null;
+
+    const roundSize = mpOrder.slice(mpRoundIdx * MP_ROUND_SIZE, (mpRoundIdx + 1) * MP_ROUND_SIZE).length;
+    if (mpMatchedCount >= roundSize) {
+      setTimeout(() => {
+        const totalRounds = Math.ceil(mpOrder.length / MP_ROUND_SIZE);
+        if (mpRoundIdx + 1 >= totalRounds) {
+          mpShowScore();
+        } else {
+          const fb = get('mp-feedback');
+          fb.className = 'feedback correct';
+          fb.textContent = '🎉 Round complete! | הסיבוב הושלם!';
+          show('mp-feedback'); show('mp-btn-next');
+        }
+      }, 400);
+    }
+  } else {
+    // Wrong — mark both, then reset after delay
+    mpWrongSet.add(mpSelected.pairIdx);
+    mpWrongSet.add(pairIdx);
+    const selEl = mpSelected.el;
+    selEl.classList.remove('selected'); selEl.classList.add('wrong');
+    el.classList.add('wrong');
+    mpSelected = null;
+    setTimeout(() => { selEl.classList.remove('wrong'); el.classList.remove('wrong'); }, 600);
+  }
+}
+
+function mpNextRound() { mpRoundIdx++; mpShowRound(); }
+
+function mpShowScore() {
+  hide('mn-match'); show('mp-score');
+  reAnimate('mp-score');
+  const correctCount = mpOrder.length - mpWrongSet.size;
+  const wrongPairs = [...mpWrongSet].map(i => mpOrder[i]);
+  setHTML('mp-score', buildScoreHTML(
+    correctCount, mpOrder.length, wrongPairs,
+    w => `<div class="review-item">${w.eng} → <span class="correct-answer">${w.heb}</span></div>`,
+    'meaning'
+  ));
+  if (correctCount === mpOrder.length) launchConfetti();
+}
+
+// ═══════════════════════════════════════════
+//  GRAMMAR
+// ═══════════════════════════════════════════
+
+let grIdx=0, grScore=0, grWrong=[], grDone=false;
+
+function grInit() {
+  hide('gr-mode'); hide('gr-scramble'); hide('gs-score');
+  grIdx = 0; grScore = 0; grWrong = [];
+  show('gr-quiz'); hide('gr-score');
+  reAnimate('gr-quiz');
+  grShow();
+}
+
+function grShow() {
+  const total = GRAMMAR.length;
+  if (grIdx >= total) { grShowScore(); return; }
+  const q = GRAMMAR[grIdx];
+
+  get('gr-sentence').innerHTML = q.sentence.replace('___', '<strong style="color:var(--primary);font-size:1.15em;">___</strong>');
+  animWord('gr-sentence');
+  hide('gr-feedback'); hide('gr-btn-next');
+  get('gr-prog').style.width = (grIdx / total * 100) + '%';
+  setText('gr-prog-text', `Question ${grIdx + 1} / ${total}`);
+  grDone = false;
+
+  const grid = get('gr-opts');
+  grid.innerHTML = '';
+  shuffle(q.options).forEach(opt => {
+    const b = document.createElement('button');
+    b.className = 'opt-btn';
+    b.style.direction = 'ltr';
+    b.textContent = opt;
+    b.onclick = e => { addRipple(b,e); grCheck(b, opt, q.answer, q.note); };
+    grid.appendChild(b);
+  });
+}
+
+function grCheck(btn, selected, correct, note) {
+  if (grDone) return;
+  grDone = true;
+  document.querySelectorAll('#gr-opts .opt-btn').forEach(b => b.disabled = true);
+  show('gr-feedback'); show('gr-btn-next');
+  const fb = get('gr-feedback');
+
+  if (selected === correct) {
+    grScore++;
+    btn.classList.add('correct');
+    fb.className = 'feedback correct';
+    fb.innerHTML = `✅ Correct! | נכון! &nbsp;<small style="font-weight:500;">${note}</small>`;
+    const rect = btn.getBoundingClientRect();
+    spawnEmoji('✨', rect.left + rect.width/2, rect.top);
+  } else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('#gr-opts .opt-btn').forEach(b => { if (b.textContent === correct) b.classList.add('correct'); });
+    grWrong.push({ sentence: GRAMMAR[grIdx].sentence, correct });
+    fb.className = 'feedback wrong';
+    fb.innerHTML = `❌ Answer: "<strong>${correct}</strong>" &nbsp;<small style="font-weight:500;">${note}</small>`;
+  }
+}
+
+function grNext() { grIdx++; grShow(); }
+
+function grShowScore() {
+  hide('gr-quiz'); show('gr-score');
+  reAnimate('gr-score');
+  const pct = Math.round(grScore / GRAMMAR.length * 100);
+  setHTML('gr-score', buildScoreHTML(
+    grScore, GRAMMAR.length, grWrong,
+    w => `<div class="review-item" style="direction:ltr;">${w.sentence.replace('___', `<span class="correct-answer">${w.correct}</span>`)}</div>`,
+    'grammar'
+  ));
+  if (pct === 100) launchConfetti();
+}
+
+// ═══════════════════════════════════════════
+//  SENTENCE BUILDER GAME
+// ═══════════════════════════════════════════
+
+let gsIdx=0, gsScore=0, gsWrong=[];
+let gsSlots=[], gsTiles=[];
+
+function showGrMode() {
+  hide('gr-quiz'); hide('gr-score'); hide('gr-scramble'); hide('gs-score');
+  show('gr-mode');
+  reAnimate('gr-mode');
+}
+
+function gsInit() {
+  hide('gr-mode');
+  gsIdx = 0; gsScore = 0; gsWrong = [];
+  show('gr-scramble'); hide('gs-score');
+  reAnimate('gr-scramble');
+  gsShow();
+}
+
+function gsShow() {
+  const total = GRAMMAR.length;
+  if (gsIdx >= total) { gsShowScore(); return; }
+  const q = GRAMMAR[gsIdx];
+
+  hide('gs-feedback'); hide('gs-btn-next'); show('gs-btn-clear');
+  get('gs-prog').style.width = (gsIdx / total * 100) + '%';
+  setText('gs-prog-text', `Question ${gsIdx + 1} / ${total}`);
+
+  // Full correct sentence (blank filled in)
+  const fullSentence = q.sentence.replace('___', q.answer);
+  const words = fullSentence.split(' ');
+
+  // Build answer slots
+  const slotsDiv = get('gs-slots');
+  slotsDiv.innerHTML = '';
+  gsSlots = [];
+  words.forEach((_, i) => {
+    const el = document.createElement('div');
+    el.className = 'word-slot';
+    el.onclick = () => gsRemoveTile(i);
+    slotsDiv.appendChild(el);
+    gsSlots.push({ el, filled: false, tileIdx: null, word: null });
+  });
+
+  // Build shuffled word tiles
+  let scrambled = shuffle([...words]);
+  if (scrambled.join(' ') === words.join(' ') && words.length > 1) scrambled = shuffle([...words]);
+
+  const tilesDiv = get('gs-tiles');
+  tilesDiv.innerHTML = '';
+  gsTiles = [];
+  scrambled.forEach((word, idx) => {
+    const el = document.createElement('div');
+    el.className = 'word-tile';
+    el.textContent = word;
+    el.onclick = () => gsPlaceTile(idx);
+    tilesDiv.appendChild(el);
+    gsTiles.push({ word, el, used: false });
+  });
+}
+
+function gsPlaceTile(tileIdx) {
+  if (gsTiles[tileIdx].used) return;
+  const nextEmpty = gsSlots.find(s => !s.filled);
+  if (!nextEmpty) return;
+
+  nextEmpty.filled = true;
+  nextEmpty.word = gsTiles[tileIdx].word;
+  nextEmpty.tileIdx = tileIdx;
+  nextEmpty.el.textContent = gsTiles[tileIdx].word;
+  nextEmpty.el.classList.add('filled');
+  gsTiles[tileIdx].used = true;
+  gsTiles[tileIdx].el.classList.add('used');
+
+  if (gsSlots.every(s => s.filled)) gsAutoCheck();
+}
+
+function gsRemoveTile(slotIdx) {
+  const slot = gsSlots[slotIdx];
+  if (!slot || !slot.filled) return;
+  const tileIdx = slot.tileIdx;
+  gsTiles[tileIdx].used = false;
+  gsTiles[tileIdx].el.classList.remove('used');
+  slot.filled = false; slot.word = null; slot.tileIdx = null;
+  slot.el.textContent = ''; slot.el.classList.remove('filled');
+}
+
+function gsClear() {
+  gsSlots.forEach((_, i) => { if (gsSlots[i].filled) gsRemoveTile(i); });
+}
+
+function gsAutoCheck() {
+  const q = GRAMMAR[gsIdx];
+  const fullSentence = q.sentence.replace('___', q.answer);
+  const words = fullSentence.split(' ');
+  const spelled = gsSlots.map(s => s.word || '').join(' ');
+  const fb = get('gs-feedback');
+  show('gs-feedback'); hide('gs-btn-clear');
+
+  // Lock all interaction
+  gsTiles.forEach(t => { t.el.style.pointerEvents = 'none'; });
+  gsSlots.forEach(s => { s.el.onclick = null; s.el.style.cursor = 'default'; });
+
+  if (spelled === fullSentence) {
+    gsScore++;
+    fb.className = 'feedback correct';
+    fb.textContent = '✅ Correct! | נכון!';
+    gsSlots.forEach(s => { s.el.style.color = 'var(--success)'; });
+    const rect = fb.getBoundingClientRect();
+    spawnEmoji('⭐', rect.left + rect.width / 2, rect.top);
+  } else {
+    gsWrong.push({ sentence: q.sentence, correct: q.answer });
+    fb.className = 'feedback wrong';
+    fb.innerHTML = `❌ Correct: <strong style="direction:ltr;display:inline-block;">${fullSentence}</strong>`;
+    gsSlots.forEach((s, i) => {
+      s.el.style.color = s.word === words[i] ? 'var(--success)' : 'var(--danger)';
+    });
+  }
+  show('gs-btn-next');
+}
+
+function gsNext() { gsIdx++; gsShow(); }
+
+function gsShowScore() {
+  hide('gr-scramble'); show('gs-score');
+  reAnimate('gs-score');
+  const pct = Math.round(gsScore / GRAMMAR.length * 100);
+  setHTML('gs-score', buildScoreHTML(
+    gsScore, GRAMMAR.length, gsWrong,
+    w => `<div class="review-item" style="direction:ltr;">${w.sentence.replace('___', `<span class="correct-answer">${w.correct}</span>`)}</div>`,
+    'grammar'
+  ));
+  if (pct === 100) launchConfetti();
+}
+
+// ═══════════════════════════════════════════
+//  WRITING
+// ═══════════════════════════════════════════
+
+let promptIdx = 0;
+
+function wInit() {
+  hide('wr-mode'); hide('wr-correction'); hide('wc-score');
+  show('wr-practice');
+  promptIdx = 0; setPrompt();
+  buildChips('chips-link',  LINKING,   'chip-blue');
+  buildChips('chips-neg',   NEGATIVES, 'chip-red');
+  buildChips('chips-vocab', VOCAB,     'chip-green');
+  get('w-text').value = '';
+  updateCount();
+}
+
+function setPrompt() {
+  const p = PROMPTS[promptIdx];
+  setHTML('w-prompt', `<strong>${p.eng}</strong><div class="heb">${p.heb}</div>`);
+}
+
+function changePrompt() {
+  promptIdx = (promptIdx + 1) % PROMPTS.length;
+  setPrompt();
+}
+
+function buildChips(containerId, words, cls) {
+  const div = get(containerId);
+  div.innerHTML = '';
+  words.forEach(w => {
+    const s = document.createElement('span');
+    s.className = 'chip ' + cls;
+    s.textContent = w;
+    s.onclick = () => insertWord(w);
+    div.appendChild(s);
+  });
+}
+
+function insertWord(word) {
+  const ta    = get('w-text');
+  const start = ta.selectionStart;
+  const end   = ta.selectionEnd;
+  const before = ta.value.substring(0, start);
+  const after  = ta.value.substring(end);
+  const space  = (before.length > 0 && !before.endsWith(' ') && !before.endsWith('\n')) ? ' ' : '';
+  ta.value = before + space + word + ' ' + after;
+  const pos = start + space.length + word.length + 1;
+  ta.selectionStart = ta.selectionEnd = pos;
+  ta.focus();
+  updateCount();
+}
+
+function updateCount() {
+  const text  = get('w-text').value.trim();
+  const words = text === '' ? 0 : text.split(/\s+/).length;
+  const el    = get('w-count');
+  el.style.animation = 'none'; void el.offsetWidth;
+
+  if (words < 40) {
+    el.className = 'word-count low';
+    el.textContent = words === 0 ? '0 words | מילים' : `${words} words — need ${40-words} more | עוד ${40-words} מילים`;
+  } else if (words <= 60) {
+    el.className = 'word-count good';
+    el.textContent = `${words} words ✅ Perfect! | מושלם!`;
+    el.style.animation = 'goodPulse 0.5s ease';
+  } else {
+    el.className = 'word-count high';
+    el.textContent = `${words} words — ${words-60} too many | יותר מדי מילים`;
+  }
+}
+
+// ═══════════════════════════════════════════
+//  CHECK TEXT
+// ═══════════════════════════════════════════
+
+const VERB_ERRORS = {
+  'go':     { past: 'went',  msg: '"go" → use past tense "went"' },
+  'goes':   { past: 'went',  msg: '"goes" → use past tense "went"' },
+  'eat':    { past: 'ate',   msg: '"eat" → use past tense "ate"' },
+  'eats':   { past: 'ate',   msg: '"eats" → use past tense "ate"' },
+  'see':    { past: 'saw',   msg: '"see" → use past tense "saw"' },
+  'sees':   { past: 'saw',   msg: '"sees" → use past tense "saw"' },
+  'drink':  { past: 'drank', msg: '"drink" → use past tense "drank"' },
+  'drinks': { past: 'drank', msg: '"drinks" → use past tense "drank"' },
+  'sleep':  { past: 'slept', msg: '"sleep" → use past tense "slept"' },
+  'sleeps': { past: 'slept', msg: '"sleeps" → use past tense "slept"' },
+  'meet':   { past: 'met',   msg: '"meet" → use past tense "met"' },
+  'meets':  { past: 'met',   msg: '"meets" → use past tense "met"' },
+  'am':     { past: 'was',   msg: '"am" → use past tense "was"' },
+  'is':     { past: 'was',   msg: '"is" → use past tense "was"' },
+  'are':    { past: 'were',  msg: '"are" → use past tense "were"' },
+  'have':   { past: 'had',   msg: '"have" → use past tense "had"' },
+  'has':    { past: 'had',   msg: '"has" → use past tense "had"' },
+  'do':     { past: 'did',   msg: '"do" → use past tense "did"' },
+  'does':   { past: 'did',   msg: '"does" → use past tense "did"' },
+};
+
+// Words that allow a base verb to follow (so we don't flag "didn't go" etc.)
+const BASE_VERB_CONTEXT = new Set([
+  "didn't","don't","doesn't","can","will","could","would","should",
+  "to","let","make","help","not","never","also","just","always"
+]);
+
+function escapeHTML(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function checkWriting() {
+  const raw = get('w-text').value;
+  const panel = get('w-check-result');
+  show('w-check-result');
+
+  // Re-trigger entrance animation
+  panel.style.animation = 'none'; void panel.offsetWidth; panel.style.animation = '';
+
+  if (!raw.trim()) {
+    setHTML('w-check-result', `
+      <div class="check-result-header">
+        <span>📋 Check Results | תוצאות בדיקה</span>
+        <button class="check-close-btn" onclick="hide('w-check-result')">✕</button>
+      </div>
+      <div class="no-errors" style="color:var(--muted); font-size:15px;">
+        ✏️ Write something first! | קודם כתבו משהו!
+      </div>`);
+    return;
+  }
+
+  const errors = [];
+  let annotatedHTML = '';
+
+  // Tokenize: split into words vs non-word runs
+  const tokens = raw.match(/[a-zA-Z']+|[^a-zA-Z']+/g) || [];
+  let atSentenceStart = true;
+  let prevWord = '';
+
+  tokens.forEach(token => {
+    const isWord = /^[a-zA-Z']/.test(token);
+
+    if (isWord) {
+      const clean = token.toLowerCase();
+      let cls = null, title = null;
+
+      // Check: lowercase "i" used as personal pronoun
+      if (clean === 'i' && token !== 'I') {
+        cls   = 'err-capital';
+        title = '"i" must always be capital "I" | "I" תמיד באות גדולה';
+        errors.push({ type:'capital', icon:'🔠', msg: '"i" → always write capital "I" | כתבו "I" באות גדולה תמיד' });
+      }
+      // Check: sentence starts with lowercase
+      else if (atSentenceStart && /^[a-z]/.test(token)) {
+        cls   = 'err-capital';
+        title = 'Start the sentence with a capital letter | התחילו את המשפט באות גדולה';
+        errors.push({ type:'capital', icon:'🔠', msg: `"${token}" — sentences must start with a capital letter | משפטים מתחילים באות גדולה` });
+      }
+      // Check: present-tense verb (not after a skip-word)
+      else if (VERB_ERRORS[clean] && !BASE_VERB_CONTEXT.has(prevWord)) {
+        const e = VERB_ERRORS[clean];
+        cls   = 'err-verb';
+        title = e.msg + ' | שנו לזמן עבר';
+        errors.push({ type:'verb', icon:'⏪', msg: e.msg + ' | שנו לזמן עבר' });
+      }
+
+      annotatedHTML += cls
+        ? `<span class="${cls}" title="${title}">${escapeHTML(token)}</span>`
+        : escapeHTML(token);
+
+      atSentenceStart = false;
+      prevWord = clean;
+
+    } else {
+      // Reset sentence-start flag after . ? !
+      if (/[.!?]/.test(token))  { atSentenceStart = true; prevWord = ''; }
+      if (/\n/.test(token))      { atSentenceStart = true; prevWord = ''; }
+      annotatedHTML += escapeHTML(token);
+    }
+  });
+
+  // Check: text doesn't end with punctuation
+  const lastChar = raw.trim().slice(-1);
+  if (!/[.!?]/.test(lastChar)) {
+    errors.push({ type:'punct', icon:'📍', msg: 'Add punctuation at the end of your text (. or ! or ?) | הוסיפו סימן פיסוק בסוף (. או ! או ?)' });
+  }
+
+  // Build legend
+  const hasVerb    = errors.some(e => e.type === 'verb');
+  const hasCapital = errors.some(e => e.type === 'capital');
+  const hasPunct   = errors.some(e => e.type === 'punct');
+  const legendHTML = (hasVerb || hasCapital || hasPunct) ? `
+    <div class="check-legend">
+      <span style="font-weight:700; color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.5px;">Legend:</span>
+      ${hasVerb    ? '<span class="legend-chip"><span class="err-verb"   style="font-size:12px;">word</span> Wrong tense | זמן לא נכון</span>' : ''}
+      ${hasCapital ? '<span class="legend-chip"><span class="err-capital" style="font-size:12px;">word</span> Capital letter | אות גדולה</span>' : ''}
+      ${hasPunct   ? '<span class="legend-chip"><span class="err-punct"   style="font-size:12px;">word</span> Punctuation | פיסוק</span>' : ''}
+    </div>` : '';
+
+  // Build error list (deduplicated)
+  let errListHTML = '';
+  if (!errors.length) {
+    errListHTML = `<div class="no-errors">🎉 No errors found! Great job! | עבודה מצוינת! לא נמצאו שגיאות!</div>`;
+  } else {
+    const seen = new Set();
+    const unique = errors.filter(e => seen.has(e.msg) ? false : seen.add(e.msg));
+    errListHTML = `<div class="err-list">
+      <div style="font-size:12px; font-weight:700; color:var(--muted); margin-bottom:10px; text-transform:uppercase; letter-spacing:.5px;">
+        ${errors.length} issue${errors.length !== 1 ? 's' : ''} found | נמצאו ${errors.length} בעיות
+      </div>
+      ${unique.map(e => `<div class="err-item ${e.type}">${e.icon} ${e.msg}</div>`).join('')}
+    </div>`;
+  }
+
+  setHTML('w-check-result', `
+    <div class="check-result-header">
+      <span>📋 Check Results | תוצאות בדיקה</span>
+      <button class="check-close-btn" onclick="hide('w-check-result')">✕</button>
+    </div>
+    ${legendHTML}
+    <div class="annotated-box">${annotatedHTML}</div>
+    ${errListHTML}
+  `);
+
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ═══════════════════════════════════════════
+//  TEST SIMULATION
+// ═══════════════════════════════════════════
+
+let tQuestions = [], tIdx = 0, tSelectedOpt = null;
+
+function tIntro() {
+  hide('t-quiz'); hide('t-score');
+  show('t-intro');
+  reAnimate('t-intro');
+}
+
+function tStart() {
+  const spellingQs = shuffle(SPELLING).slice(0, 10).map(q => ({ type: 'spelling', data: q, answer: null }));
+  const meaningQs  = shuffle(MEANING).slice(0, 10).map(q  => ({ type: 'meaning',  data: q, answer: null }));
+  const grammarQs  = GRAMMAR.map(q                        => ({ type: 'grammar',  data: q, answer: null }));
+  tQuestions = [...spellingQs, ...meaningQs, ...grammarQs];
+  tIdx = 0; tSelectedOpt = null;
+  hide('t-intro'); hide('t-score');
+  show('t-quiz'); reAnimate('t-quiz');
+  tShow();
+}
+
+function tShow() {
+  if (tIdx >= tQuestions.length) { tShowScore(); return; }
+  const q = tQuestions[tIdx];
+  const total = tQuestions.length;
+  tSelectedOpt = null;
+
+  get('t-prog').style.width = (tIdx / total * 100) + '%';
+  setText('t-prog-text', `Question ${tIdx + 1} / ${total}`);
+
+  const badges = {
+    spelling: '✏️ Section 1 — Spelling | איות',
+    meaning:  '📖 Section 2 — Meaning | משמעות',
+    grammar:  '📝 Section 3 — Grammar | דקדוק',
+  };
+  setText('t-badge', badges[q.type]);
+
+  // Reset input & opts
+  hide('t-input'); hide('t-opts');
+  get('t-input').value = '';
+  get('t-opts').innerHTML = '';
+  get('t-word').style.fontSize = '';
+
+  if (q.type === 'spelling') {
+    setText('t-instruction', 'What is the English word for? | מה המילה באנגלית?');
+    setText('t-word', q.data.heb);
+    get('t-word').style.direction = 'rtl';
+    show('t-input');
+    setTimeout(() => get('t-input').focus(), 80);
+
+  } else if (q.type === 'meaning') {
+    setText('t-instruction', 'What does this word mean? | מה פירוש המילה?');
+    setText('t-word', q.data.eng);
+    get('t-word').style.direction = 'ltr';
+    show('t-opts');
+    const wrongPool = shuffle(MEANING.filter(m => m.eng !== q.data.eng)).slice(0, 3).map(m => m.heb);
+    tBuildOpts(shuffle([q.data.heb, ...wrongPool]), 'rtl');
+
+  } else if (q.type === 'grammar') {
+    setText('t-instruction', 'Choose the correct form | בחרו את הצורה הנכונה');
+    get('t-word').innerHTML = q.data.sentence.replace('___', '<strong style="color:var(--primary);font-size:1.1em;">___</strong>');
+    get('t-word').style.direction = 'ltr';
+    get('t-word').style.fontSize = '18px';
+    show('t-opts');
+    tBuildOpts(shuffle(q.data.options), 'ltr');
+  }
+
+  animWord('t-word');
+}
+
+function tBuildOpts(options, dir) {
+  const grid = get('t-opts');
+  options.forEach(opt => {
+    const b = document.createElement('button');
+    b.className = 'opt-btn';
+    b.style.direction = dir;
+    b.textContent = opt;
+    b.onclick = e => {
+      addRipple(b, e);
+      grid.querySelectorAll('.opt-btn').forEach(x => x.classList.remove('t-selected'));
+      b.classList.add('t-selected');
+      tSelectedOpt = opt;
+    };
+    grid.appendChild(b);
+  });
+}
+
+function tNext() {
+  const q = tQuestions[tIdx];
+  q.answer = q.type === 'spelling' ? get('t-input').value.trim() : (tSelectedOpt || '');
+  tIdx++;
+  tShow();
+}
+
+function tShowScore() {
+  hide('t-quiz'); show('t-score');
+  reAnimate('t-score');
+
+  // Grade
+  const by = {
+    spelling: { score: 0, total: 0, wrong: [] },
+    meaning:  { score: 0, total: 0, wrong: [] },
+    grammar:  { score: 0, total: 0, wrong: [] },
+  };
+
+  tQuestions.forEach(q => {
+    const t = by[q.type];
+    t.total++;
+    let ok = false;
+    if (q.type === 'spelling') {
+      ok = q.answer.toLowerCase() === q.data.eng.toLowerCase();
+      if (!ok) t.wrong.push({ label: q.data.heb, correct: q.data.eng, given: q.answer });
+    } else if (q.type === 'meaning') {
+      ok = q.answer === q.data.heb;
+      if (!ok) t.wrong.push({ label: q.data.eng, correct: q.data.heb });
+    } else if (q.type === 'grammar') {
+      ok = q.answer === q.data.answer;
+      if (!ok) t.wrong.push({ label: q.data.sentence, correct: q.data.answer, note: q.data.note });
+    }
+    if (ok) t.score++;
+  });
+
+  const total = tQuestions.length;
+  const score = by.spelling.score + by.meaning.score + by.grammar.score;
+  const pct   = Math.round(score / total * 100);
+  const msg   = scoreMsg(pct);
+
+  // Build wrong-answer lists
+  let wrongHTML = '';
+  if (by.spelling.wrong.length) {
+    wrongHTML += `<h3 style="margin:18px 0 8px; font-size:14px; color:var(--muted);">✏️ Spelling | איות</h3>`;
+    by.spelling.wrong.forEach(w => {
+      wrongHTML += `<div class="review-item" style="direction:rtl;">${w.label} → <span class="correct-answer">${w.correct}</span>${w.given ? ` <span style="color:#bbb; font-size:12px;">(wrote: ${escapeHTML(w.given)})</span>` : ''}</div>`;
+    });
+  }
+  if (by.meaning.wrong.length) {
+    wrongHTML += `<h3 style="margin:18px 0 8px; font-size:14px; color:var(--muted);">📖 Meaning | משמעות</h3>`;
+    by.meaning.wrong.forEach(w => {
+      wrongHTML += `<div class="review-item">${w.label} → <span class="correct-answer">${w.correct}</span></div>`;
+    });
+  }
+  if (by.grammar.wrong.length) {
+    wrongHTML += `<h3 style="margin:18px 0 8px; font-size:14px; color:var(--muted);">📝 Grammar | דקדוק</h3>`;
+    by.grammar.wrong.forEach(w => {
+      wrongHTML += `<div class="review-item" style="direction:ltr;">${w.label.replace('___', `<span class="correct-answer">${w.correct}</span>`)} <small style="color:var(--muted); font-weight:500;">${w.note || ''}</small></div>`;
+    });
+  }
+
+  setHTML('t-score', `
+    <div class="score-screen">
+      <div class="score-circle">
+        <span>${score}/${total}</span>
+        <span class="lbl">${pct}%</span>
+      </div>
+      <div class="score-msg">${msg.en}</div>
+      <div class="heb" style="margin-top:4px; margin-bottom:4px;">${msg.he}</div>
+
+      <div class="score-breakdown">
+        <div class="breakdown-row">
+          <span>✏️ Spelling | איות</span>
+          <span class="breakdown-score">${by.spelling.score}/${by.spelling.total}</span>
+        </div>
+        <div class="breakdown-row">
+          <span>📖 Meaning | משמעות</span>
+          <span class="breakdown-score">${by.meaning.score}/${by.meaning.total}</span>
+        </div>
+        <div class="breakdown-row">
+          <span>📝 Grammar | דקדוק</span>
+          <span class="breakdown-score">${by.grammar.score}/${by.grammar.total}</span>
+        </div>
+      </div>
+
+      ${wrongHTML
+        ? `<div class="review-list">${wrongHTML}</div>`
+        : '<div class="no-errors" style="margin:20px 0;">🎉 Perfect test! No mistakes! | מבחן מושלם!</div>'
+      }
+
+      <button class="btn btn-yellow" style="margin-top:22px;" onclick="tStart()">🔄 Try Again | נסו שוב</button>
+      <button class="btn btn-gray"   style="margin-top:10px;" onclick="goHome()">🏠 Back to Home | חזרה</button>
+    </div>
+  `);
+
+  if (pct === 100) launchConfetti();
+}
+
+// ═══════════════════════════════════════════
+//  CORRECTION GAME
+// ═══════════════════════════════════════════
+
+let wcOrder=[], wcIdx=0, wcScore=0, wcWrong=[], wcDone=false;
+
+function showWrMode() {
+  hide('wr-practice'); hide('wr-correction'); hide('wc-score');
+  show('wr-mode');
+  reAnimate('wr-mode');
+}
+
+function wcInit() {
+  hide('wr-mode');
+  wcOrder = shuffle(CORRECTIONS); wcIdx = 0; wcScore = 0; wcWrong = [];
+  show('wr-correction'); hide('wc-score');
+  reAnimate('wr-correction');
+  wcShow();
+}
+
+function wcHighlight(sentence, wrongWord) {
+  const idx = sentence.indexOf(wrongWord);
+  if (idx === -1) return escapeHTML(sentence);
+  return escapeHTML(sentence.slice(0, idx))
+    + `<span class="err-verb" style="cursor:default;">${escapeHTML(wrongWord)}</span>`
+    + escapeHTML(sentence.slice(idx + wrongWord.length));
+}
+
+function wcShow() {
+  const total = wcOrder.length;
+  if (wcIdx >= total) { wcShowScore(); return; }
+  const q = wcOrder[wcIdx];
+
+  wcDone = false;
+  get('wc-input').value = '';
+  get('wc-input').disabled = false;
+  hide('wc-feedback'); hide('wc-btn-next'); show('wc-btn-check');
+
+  const hBtn = get('wc-btn-hint');
+  hBtn.disabled = false;
+  hBtn.textContent = '💡 Hint — show the rule \u00a0|\u00a0 רמז — הראו את הכלל';
+
+  get('wc-prog').style.width = (wcIdx / total * 100) + '%';
+  setText('wc-prog-text', `Question ${wcIdx + 1} / ${total}`);
+  setHTML('wc-sentence', wcHighlight(q.sentence, q.wrongWord));
+  setTimeout(() => get('wc-input').focus(), 80);
+}
+
+function wcHint() {
+  const q = wcOrder[wcIdx];
+  const hBtn = get('wc-btn-hint');
+  hBtn.textContent = `💡 ${q.note}`;
+  hBtn.disabled = true;
+}
+
+function wcCheck() {
+  if (wcDone) return;
+  const val = get('wc-input').value.trim();
+  if (!val) return;
+  wcDone = true;
+  get('wc-input').disabled = true;
+  hide('wc-btn-check'); show('wc-btn-next');
+
+  const q = wcOrder[wcIdx];
+  // Capitalization questions need exact match; verb questions are case-insensitive
+  const isCapQ = q.correct.toLowerCase() === q.wrongWord.toLowerCase();
+  const isCorrect = isCapQ ? val === q.correct : val.toLowerCase() === q.correct.toLowerCase();
+
+  const fb = get('wc-feedback');
+  show('wc-feedback');
+
+  if (isCorrect) {
+    wcScore++;
+    fb.className = 'feedback correct';
+    fb.textContent = `✅ Correct! "${q.correct}" | נכון!`;
+    const rect = fb.getBoundingClientRect();
+    spawnEmoji('⭐', rect.left + rect.width / 2, rect.top);
+  } else {
+    wcWrong.push(q);
+    fb.className = 'feedback wrong';
+    fb.innerHTML = `❌ Correct word: "<strong>${q.correct}</strong>" &nbsp;<small style="font-weight:500;">${q.note}</small>`;
+  }
+}
+
+function wcNext() { wcIdx++; wcShow(); }
+
+function wcShowScore() {
+  hide('wr-correction'); show('wc-score');
+  reAnimate('wc-score');
+  const pct = Math.round(wcScore / wcOrder.length * 100);
+  setHTML('wc-score', buildScoreHTML(
+    wcScore, wcOrder.length, wcWrong,
+    w => `<div class="review-item" style="direction:ltr;">${wcHighlight(w.sentence, w.wrongWord)} → <span class="correct-answer">${w.correct}</span></div>`,
+    'writing'
+  ));
+  if (pct === 100) launchConfetti();
+}
+
+// ════════════════
+goHome();
+</script>
+</body>
+</html>
